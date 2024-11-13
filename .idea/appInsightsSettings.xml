@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.digitaldose.medtime" />
+                  <option name="mobileSdkAppId" value="1:98260181428:android:93bdcaaa068c62042b12e1" />
+                  <option name="projectId" value="medtime-f9c85" />
+                  <option name="projectNumber" value="98260181428" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

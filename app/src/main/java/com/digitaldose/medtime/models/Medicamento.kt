@@ -2,7 +2,9 @@ package com.digitaldose.medtime.models
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.util.nextAlphanumericString
 import kotlin.random.Random
+import kotlin.random.nextUInt
 
 /**
  * Classe que representa um medicamento.
@@ -11,15 +13,23 @@ import kotlin.random.Random
  * @since 12/11/2024
  */
 data class Medicamento(
-    val nome: String? = null,
-    val descricao: String? = null,
-    val dosagem: String? = null,
-    val frequencia: String? = null,
-    val horario: List<String>? = emptyList()
+    var id: String = generateDocumentId(),
+    var nome: String? = null,
+    var descricao: String? = null,
+    var dosagem: String? = null,
+    var frequencia: String? = null,
+    var horario: List<String>? = emptyList()
 ) {
+   companion object {
+        private fun generateDocumentId(): String {
+            return "${Random.nextUInt()}${Random.nextAlphanumericString(5)}${Random.nextInt()}"
+        }
+
+    }
     @Exclude
     fun toMap(): Map<String, Any?> {
         return hashMapOf(
+            "id" to id,
             "nome" to nome,
             "descricao" to descricao,
             "dosagem" to dosagem,

@@ -24,7 +24,7 @@ class MedicamentoRepository {
      */
     fun createMedicamento(medicamento: Medicamento): Task<Void> {
         val documentRef = firestoreDB.collection(Collections.MEDICAMENTOS)
-            .document(medicamento.generateDocumentId())
+            .document(medicamento.id)
         return documentRef.set(medicamento.toMap())
     }
 
@@ -34,8 +34,8 @@ class MedicamentoRepository {
      *  @param Medicamento medicamento Objeto Medicamento com os dados atualizados.
      *  @return Task<Void> Task que indica o resultado da operação.
      */
-    fun updateMedicamento(documentId: String, medicamento: Medicamento): Task<Void> {
-        val documentRef = firestoreDB.collection(Collections.MEDICAMENTOS).document(documentId)
+    fun updateMedicamento(medicamento: Medicamento): Task<Void> {
+        val documentRef = firestoreDB.collection(Collections.MEDICAMENTOS).document(medicamento.id)
         return documentRef.update(medicamento.toMap())
     }
 

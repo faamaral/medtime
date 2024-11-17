@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.digitaldose.medtime.ui.components.MedicamentoItem
@@ -45,18 +46,19 @@ fun HomeScreen(
     modifier: Modifier
 ) {
     // Observa os medicamentos da ViewModel
-    val medicamentos by medicamentoViewModel.medicamentosLiveData.observeAsState(emptyList())
+    val medicamentos = medicamentoViewModel.obterMedicamentos().observeAsState(mutableListOf()).value
     val medicamentoState = medicamentoViewModel.medicamentoState.observeAsState()
+    val context = LocalContext.current
 
-    LaunchedEffect(medicamentoState.value) {
-        if (medicamentoState.value == MedicamentoState.Init) {
-            medicamentoViewModel.obterMedicamentos()
-            if (medicamentos.isEmpty()) {
-                // TODO: gerar mensagem de tela sem dados
-            }
-        }
-
-    }
+//    LaunchedEffect(medicamentoState.value) {
+//        if (medicamentoState.value == MedicamentoState.Init) {
+//            medicamentoViewModel.obterMedicamentos()
+//            if (medicamentos.isEmpty()) {
+//                // TODO: gerar mensagem de tela sem dados
+//            }
+//        }
+//
+//    }
 
     Scaffold(
         topBar = {
@@ -78,14 +80,10 @@ fun HomeScreen(
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(top = it.calculateTopPadding())
-                .fillMaxSize()
-        ) {
-            itemsIndexed(medicamentos) { index, item ->
-                MedicamentoItem(medicamento = item, navController = navController)
-
+        LazyColumn(modifier = Modifier.padding(top=it.calculateTopPadding()).fillMaxSize()) {
+            itemsIndexed(medicamentos) {index, item ->
+                MedicamentoItem(index = index, listaMedicamentos = medicamentos, medicamento = item, navController = navController, medicamentoViewModel = medicamentoViewModel, context = context)
+                
             }
         }
     }

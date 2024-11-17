@@ -9,9 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -21,8 +26,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.digitaldose.medtime.ui.components.MedicamentoItem
+import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoState
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 
@@ -33,7 +40,11 @@ import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, medicamentoViewModel: MedicamentoViewModel, modifier: Modifier) {
+fun HomeScreen(
+    navController: NavController,
+    medicamentoViewModel: MedicamentoViewModel,
+    modifier: Modifier
+) {
     // Observa os medicamentos da ViewModel
     val medicamentos = medicamentoViewModel.obterMedicamentos().observeAsState(mutableListOf()).value
     val medicamentoState = medicamentoViewModel.medicamentoState.observeAsState()
@@ -52,14 +63,27 @@ fun HomeScreen(navController: NavController, medicamentoViewModel: MedicamentoVi
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Medicamentos") }
+                title = { Text("Lista de Medicamentos") },
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(Routes.CREATE_MEDICAMENTO)
+                },
+                containerColor = Color.DarkGray,
+                contentColor = Color.White,
+                shape = CircleShape,
+                content = {
+                    Icon(Icons.Filled.Add, contentDescription = "Adicionar Medicamento")
+                }
             )
         }
     ) {
         LazyColumn(modifier = Modifier.padding(top=it.calculateTopPadding()).fillMaxSize()) {
             itemsIndexed(medicamentos) {index, item ->
                 MedicamentoItem(index = index, listaMedicamentos = medicamentos, medicamento = item, navController = navController, medicamentoViewModel = medicamentoViewModel, context = context)
-
+                
             }
         }
     }

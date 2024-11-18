@@ -3,6 +3,7 @@ package com.digitaldose.medtime.ui.components
 import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +33,6 @@ import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.digitaldose.medtime.ui.components.DeleteItem as DeleteItem1
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
@@ -45,7 +45,10 @@ fun MedicamentoItem(
     listaMedicamentos: MutableList<Medicamento>,
     medicamento: Medicamento,
     navController: NavController,
-    medicamentoViewModel: MedicamentoViewModel, context: Context) {
+    medicamentoViewModel: MedicamentoViewModel,
+    context: Context,
+//    onClick: () -> Unit
+) {
     val showDialog = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -65,11 +68,12 @@ fun MedicamentoItem(
 //                showDialog.value = false
             }.show()
     }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+//            .clickable { onClick() }
+        ,
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
@@ -83,24 +87,24 @@ fun MedicamentoItem(
             Row() {
                 IconButton(
                     onClick = {
-                        navController.navigate(Routes.UPDATE_MEDICAMENTO)
+                        navController.navigate("${Routes.UPDATE_MEDICAMENTO}/${medicamento.id}")
                     }, colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.Blue
                     )
                 ) {
                     Icon(Icons.Filled.Edit, contentDescription = "Editar")
                 }
-                if (showDialog.value) {
-                    DeleteItem1(
-                        onConfirmButton = {
-                            medicamentoViewModel.deletarMedicamento(medicamento.id)
-                        },
-                        onDismissButton = {
-                            showDialog.value = false
-                        },
-                        setShowDialog = {showDialog.value = it}
-                    )
-                }
+//                if (showDialog.value) {
+//                    DeleteItem1(
+//                        onConfirmButton = {
+//                            medicamentoViewModel.deletarMedicamento(medicamento.id)
+//                        },
+//                        onDismissButton = {
+//                            showDialog.value = false
+//                        },
+//                        setShowDialog = {showDialog.value = it}
+//                    )
+//                }
                 IconButton(
                     onClick = {
                         alertDialog()

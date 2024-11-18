@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.digitaldose.medtime.ui.components.MedicamentoItem
@@ -46,8 +47,9 @@ fun HomeScreen(
     shouldRefresh: Boolean
 ) {
     // Observa os medicamentos da ViewModel
-    val medicamentos by medicamentoViewModel.medicamentosLiveData.observeAsState(emptyList())
+    val medicamentos = medicamentoViewModel.obterMedicamentos().observeAsState(mutableListOf()).value
     val medicamentoState = medicamentoViewModel.medicamentoState.observeAsState()
+    val context = LocalContext.current
 
     if (shouldRefresh) {
         LaunchedEffect(Unit) {
@@ -85,16 +87,17 @@ fun HomeScreen(
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(top = it.calculateTopPadding())
-                .fillMaxSize()
-        ) {
-            itemsIndexed(medicamentos) { index, item ->
-                MedicamentoItem(medicamento = item, navController = navController, onClick = {
+        LazyColumn(modifier = Modifier.padding(top=it.calculateTopPadding()).fillMaxSize()) {
+            itemsIndexed(medicamentos) {index, item ->
+                MedicamentoItem(
+                  index = index, 
+                  listaMedicamentos = medicamentos, 
+                  medicamento = item, 
+                  navController = navController, 
+                  medicamentoViewModel = medicamentoViewModel, 
+                  context = context, onClick = {
                     navController.navigate("update_medicamento/${item.id}")
                 })
-
             }
         }
     }

@@ -22,8 +22,8 @@ class MedicamentoViewModel : ViewModel() {
     private val medicamentoRepository = MedicamentoRepository()
     private val _medicamentoState = MutableLiveData<MedicamentoState>()
     val medicamentoState: LiveData<MedicamentoState> = _medicamentoState
-    private val _medicamentosLiveData = MutableLiveData<List<Medicamento>>()
-    val medicamentosLiveData: LiveData<List<Medicamento>> = _medicamentosLiveData
+    private val _medicamentosLiveData = MutableLiveData<MutableList<Medicamento>>()
+    val medicamentosLiveData: LiveData<MutableList<Medicamento>> = _medicamentosLiveData
 
     init {
         _medicamentoState.value = MedicamentoState.Init
@@ -51,39 +51,46 @@ class MedicamentoViewModel : ViewModel() {
         _medicamentoState.value = MedicamentoState.Loading
         medicamentoRepository.deleteMedicamento(documentId).addOnSuccessListener {
             _medicamentoState.value = MedicamentoState.Done
+
+            _medicamentoState.value = MedicamentoState.Init
         }.addOnFailureListener {
             _medicamentoState.value = MedicamentoState.Error(it.message ?: "Erro desconhecido")
         }
     }
 
-    fun obterMedicamentos() {
-        _medicamentoState.postValue(MedicamentoState.Loading)
-        medicamentoRepository.getMedicamentos().addOnSuccessListener {
-            try {
+    fun obterMedicamentos(): LiveData<MutableList<Medicamento>> {
+//        try {
+            _medicamentoState.postValue(MedicamentoState.Loading)
+            medicamentoRepository.getMedicamentos().addOnSuccessListener {
                 val medicamentos: MutableList<Medicamento> = mutableListOf()
                 for (item in it.documents) {
-                    val medicamento = Medicamento()
-                    medicamento.nome = item.data!!["nome"] as String?
-                    medicamento.descricao = item.data!!["descricao"] as String?
-                    medicamento.dosagem = item.data!!["dosagem"] as String?
-                    medicamento.frequencia = item.data!!["frequencia"] as String?
-                    medicamento.horario = item.data!!["horario"] as List<String>?
-                    medicamentos.add(medicamento)
+//                    val medicamento = Medicamento()
+                    val med = item.toObject(Medicamento::class.java)
+//                    medicamento.id = item.id
+//                    medicamento.nome = item.data!!["nome"] as String?
+//                    medicamento.descricao = item.data!!["descricao"] as String?
+//                    medicamento.dosagem = item.data!!["dosagem"] as String?
+//                    medicamento.frequencia = item.data!!["frequencia"] as String?
+//                    medicamento.horario = item.data!!["horario"] as List<String>?
+                    medicamentos.add(med!!)
                 }
                 _medicamentosLiveData.postValue(medicamentos)
-                _medicamentoState.value = MedicamentoState.Done
-            } catch (e: FirebaseFirestoreException) {
-                _medicamentoState.postValue(MedicamentoState.Error(e.message ?: "Erro desconhecido"))
+            }.addOnFailureListener {
+                _medicamentoState.postValue(
+                    MedicamentoState.Error(
+                        it.message ?: "Erro desconhecido"
+                    )
+                )
             }
-
-        }.addOnFailureListener {
-            _medicamentoState.postValue(MedicamentoState.Error(it.message ?: "Erro desconhecido"))
-        }
+            return medicamentosLiveData
+//        } catch (e: FirebaseFirestoreException) {
+//            _medicamentoState.postValue(MedicamentoState.Error(e.message ?: "Erro desconhecido"))
+//        }
     }
 
     fun obterMedicamento(documentId: String) {
         _medicamentoState.value = MedicamentoState.Loading
-        medicamentoRepository.getMedicamento(documentId).addOnSuccessListener{
+        medicamentoRepository.getMedicamento(documentId).addOnSuccessListener {
             try {
 
             } catch (e: FirebaseFirestoreException) {
@@ -132,6 +139,8 @@ class MedicamentoViewModel : ViewModel() {
 sealed class MedicamentoState {
     object Done : MedicamentoState()
     object Init : MedicamentoState()
+    object Launched : MedicamentoState()
+
     //    object Unauthenticated : AuthState()
     object Loading : MedicamentoState()
     data class Error(val message: String) : MedicamentoState()

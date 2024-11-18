@@ -16,12 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.digitaldose.medtime.models.Medicamento
 
+/**
+ * @author Ramiro Alves <ramiroalves.dev@gmail.com>
+ * @since 17/11/2024
+*/
+
 @Composable
 fun MedicamentoForm(
     medicamento: Medicamento? = null,
     onSave: (Medicamento) -> Unit
 ) {
-//    val medicamentoState = rememberUpdatedState(medicamento)
 
     var nome by remember { mutableStateOf("") }
     var descricao by remember { mutableStateOf("") }

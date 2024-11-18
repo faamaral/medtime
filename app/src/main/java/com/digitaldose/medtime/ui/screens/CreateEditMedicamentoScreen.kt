@@ -61,17 +61,6 @@ fun CreateEditMedicamentoScreen(
         }
     }
 
-
-//    LaunchedEffect(medicamento) {
-//        medicamento?.let {
-//            nome = it.nome.orEmpty()
-//            descricao = it.descricao.orEmpty()
-//            dosagem = it.dosagem.orEmpty()
-//            frequencia = it.frequencia.orEmpty()
-//            horario = it.horario.orEmpty()
-//        }
-//    }
-
     Scaffold(
         topBar = {
             TopAppBar(

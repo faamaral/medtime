@@ -57,15 +57,15 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(medicamentoState.value) {
-        if (medicamentoState.value == MedicamentoState.Init) {
-            medicamentoViewModel.obterMedicamentos()
-            if (medicamentos.isEmpty()) {
-                // TODO: gerar mensagem de tela sem dados
-            }
-        }
-
-    }
+//    LaunchedEffect(medicamentoState.value) {
+//        if (medicamentoState.value == MedicamentoState.Init) {
+//            medicamentoViewModel.obterMedicamentos()
+//            if (medicamentos.isEmpty()) {
+//                // TODO: gerar mensagem de tela sem dados
+//            }
+//        }
+//
+//    }
 
     Scaffold(
         topBar = {

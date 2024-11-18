@@ -42,11 +42,18 @@ import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 fun HomeScreen(
     navController: NavController,
     medicamentoViewModel: MedicamentoViewModel,
-    modifier: Modifier
+    modifier: Modifier,
+    shouldRefresh: Boolean
 ) {
     // Observa os medicamentos da ViewModel
     val medicamentos by medicamentoViewModel.medicamentosLiveData.observeAsState(emptyList())
     val medicamentoState = medicamentoViewModel.medicamentoState.observeAsState()
+
+    if (shouldRefresh) {
+        LaunchedEffect(Unit) {
+            medicamentoViewModel.obterMedicamentos()
+        }
+    }
 
     LaunchedEffect(medicamentoState.value) {
         if (medicamentoState.value == MedicamentoState.Init) {
@@ -84,7 +91,9 @@ fun HomeScreen(
                 .fillMaxSize()
         ) {
             itemsIndexed(medicamentos) { index, item ->
-                MedicamentoItem(medicamento = item, navController = navController)
+                MedicamentoItem(medicamento = item, navController = navController, onClick = {
+                    navController.navigate("update_medicamento/${item.id}")
+                })
 
             }
         }

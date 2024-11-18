@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "98260181428",
+    "project_id": "medtime-f9c85",
+    "storage_bucket": "medtime-f9c85.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98260181428:android:93bdcaaa068c62042b12e1",
+        "android_client_info": {
+          "package_name": "com.digitaldose.medtime"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC37Pdq6SoU6xTC41yl6yXug4vGUs8sbtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

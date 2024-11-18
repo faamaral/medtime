@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.digitaldose.medtime.ui.screens.CreateMedicamento
 import com.digitaldose.medtime.ui.screens.HomeScreen
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
@@ -23,7 +24,7 @@ fun AppNavigation(modifier: Modifier, medicamentoViewModel: MedicamentoViewModel
             HomeScreen(navController = navController,modifier = modifier, medicamentoViewModel = medicamentoViewModel)
         }
         composable(Routes.CREATE_MEDICAMENTO) {
-            // TODO: Colocar aqui chamada para tela de cadastro de medicamento
+            CreateMedicamento(navController = navController, modifier = modifier, medicamentoViewModel = medicamentoViewModel)
         }
         composable(Routes.UPDATE_MEDICAMENTO) {
             // TODO: Colocar aqui chamada para tela de edição de medicamento

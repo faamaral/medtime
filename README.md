@@ -13,6 +13,17 @@
   <img src="docs/images/excluir_medicamento.png" alt="Excluir Medicamento" width="180">
 </div>
 
+## Funcionalidades
+
+- Cadastrar medicamento
+- Editar dados dos medicamento cadastrado
+- Exibir lista de medicamentos
+- Excluir medicamento
+
+## Ferramentas e Tecnologias
+
+- Firebase Cloud Firestore
+- Jetpack Compose
 
 ## Baixar e configurar o projeto
 

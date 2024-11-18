@@ -47,7 +47,8 @@ fun MedicamentoItem(
     navController: NavController,
     medicamentoViewModel: MedicamentoViewModel,
     context: Context,
-    onClick: () -> Unit) {
+//    onClick: () -> Unit
+) {
     val showDialog = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -71,7 +72,8 @@ fun MedicamentoItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onClick() },
+//            .clickable { onClick() }
+        ,
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )

@@ -32,7 +32,7 @@ fun AppNavigation(modifier: Modifier, medicamentoViewModel: MedicamentoViewModel
         }
         composable(Routes.CREATE_MEDICAMENTO) {
             CreateEditMedicamentoScreen(navController = navController,medicamentoViewModel = medicamentoViewModel,medicamentoId = null)
-            CreateMedicamento(navController = navController, modifier = modifier, medicamentoViewModel = medicamentoViewModel)
+//            CreateMedicamento(navController = navController, modifier = modifier, medicamentoViewModel = medicamentoViewModel)
         }
         composable("${Routes.UPDATE_MEDICAMENTO}/{medicamentoId}", arguments = listOf(navArgument("medicamentoId") { type = NavType.StringType })) {
                 backStackEntry ->

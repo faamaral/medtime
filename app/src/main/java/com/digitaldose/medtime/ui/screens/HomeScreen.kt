@@ -95,9 +95,11 @@ fun HomeScreen(
                   medicamento = item, 
                   navController = navController, 
                   medicamentoViewModel = medicamentoViewModel, 
-                  context = context, onClick = {
-                    navController.navigate("update_medicamento/${item.id}")
-                })
+                  context = context,
+//                    onClick = {
+//                    navController.navigate("update_medicamento/${item.id}")
+//                }
+                )
             }
         }
     }

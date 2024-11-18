@@ -73,16 +73,16 @@ fun CreateEditMedicamentoScreen(
             )
         },
         content = { padding ->
-            if (isEditing && medicamentoViewModel.medicamentoState.observeAsState().value is MedicamentoState.Loading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
+//            if (isEditing && medicamentoViewModel.medicamentoState.observeAsState().value is MedicamentoState.Loading) {
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(padding),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    CircularProgressIndicator()
+//                }
+//            } else {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -101,7 +101,7 @@ fun CreateEditMedicamentoScreen(
                         }
                     )
                 }
-            }
+//            }
         }
     )
 }

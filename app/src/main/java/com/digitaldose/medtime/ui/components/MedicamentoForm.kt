@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import com.digitaldose.medtime.models.Medicamento
  * @since 17/11/2024
 */
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun MedicamentoForm(
     medicamento: Medicamento? = null,
@@ -32,6 +34,7 @@ fun MedicamentoForm(
     var dosagem by remember { mutableStateOf("") }
     var frequencia by remember { mutableStateOf("") }
     var horario by remember { mutableStateOf("") }
+//    var horarios by remember { mutableStateOf(mutableListOf<String>()) }
 
     // Atualiza os campos quando o medicamento muda
     LaunchedEffect(medicamento) {
@@ -78,7 +81,6 @@ fun MedicamentoForm(
         Button(
             onClick = {
                 val novoMedicamento = Medicamento(
-                    id = medicamento?.id ?: "", // Retorna o ID atual se for edição
                     nome = nome,
                     descricao = descricao,
                     dosagem = dosagem,

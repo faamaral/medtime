@@ -33,7 +33,6 @@ import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.digitaldose.medtime.ui.components.DeleteItem as DeleteItem1
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
@@ -46,7 +45,9 @@ fun MedicamentoItem(
     listaMedicamentos: MutableList<Medicamento>,
     medicamento: Medicamento,
     navController: NavController,
-    medicamentoViewModel: MedicamentoViewModel, context: Context) {
+    medicamentoViewModel: MedicamentoViewModel,
+    context: Context,
+    onClick: () -> Unit) {
     val showDialog = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -91,17 +92,17 @@ fun MedicamentoItem(
                 ) {
                     Icon(Icons.Filled.Edit, contentDescription = "Editar")
                 }
-                if (showDialog.value) {
-                    DeleteItem1(
-                        onConfirmButton = {
-                            medicamentoViewModel.deletarMedicamento(medicamento.id)
-                        },
-                        onDismissButton = {
-                            showDialog.value = false
-                        },
-                        setShowDialog = {showDialog.value = it}
-                    )
-                }
+//                if (showDialog.value) {
+//                    DeleteItem1(
+//                        onConfirmButton = {
+//                            medicamentoViewModel.deletarMedicamento(medicamento.id)
+//                        },
+//                        onDismissButton = {
+//                            showDialog.value = false
+//                        },
+//                        setShowDialog = {showDialog.value = it}
+//                    )
+//                }
                 IconButton(
                     onClick = {
                         alertDialog()

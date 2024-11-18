@@ -9,7 +9,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.digitaldose.medtime.ui.screens.CreateMedicamento
 import com.digitaldose.medtime.ui.screens.HomeScreen
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
@@ -32,7 +31,6 @@ fun AppNavigation(modifier: Modifier, medicamentoViewModel: MedicamentoViewModel
         }
         composable(Routes.CREATE_MEDICAMENTO) {
             CreateEditMedicamentoScreen(navController = navController,medicamentoViewModel = medicamentoViewModel,medicamentoId = null)
-//            CreateMedicamento(navController = navController, modifier = modifier, medicamentoViewModel = medicamentoViewModel)
         }
         composable("${Routes.UPDATE_MEDICAMENTO}/{medicamentoId}", arguments = listOf(navArgument("medicamentoId") { type = NavType.StringType })) {
                 backStackEntry ->

@@ -93,6 +93,7 @@ fun CreateEditMedicamentoScreen(
                         medicamento = medicamento,
                         onSave = { medicamentoAtualizado ->
                             if (isEditing) {
+                                medicamentoAtualizado.id = medicamentoId!!
                                 medicamentoViewModel.atualizarMedicamento(medicamentoAtualizado)
                             } else {
                                 medicamentoViewModel.salvarMedicamento(medicamentoAtualizado)

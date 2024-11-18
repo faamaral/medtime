@@ -8,7 +8,7 @@ class Routes {
     companion object {
         const val HOME = "home"
         const val CREATE_MEDICAMENTO = "create_medicamento"
-        const val UPDATE_MEDICAMENTO = "update_medicamento"
+        const val UPDATE_MEDICAMENTO = "update_medicamento/{medicamentoId}"
         const val DELETE_MEDICAMENTO = "delete_medicamento"
     }
 }

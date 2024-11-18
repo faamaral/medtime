@@ -21,7 +21,7 @@ data class Medicamento(
     var horario: List<String>? = emptyList()
 ) {
    companion object {
-        private fun generateDocumentId(): String {
+        fun generateDocumentId(): String {
             return "${Random.nextUInt()}${Random.nextAlphanumericString(5)}${Random.nextInt()}"
         }
 

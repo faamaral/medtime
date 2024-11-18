@@ -3,6 +3,7 @@ package com.digitaldose.medtime.ui.components
 import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,11 +66,11 @@ fun MedicamentoItem(
 //                showDialog.value = false
             }.show()
     }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
@@ -83,7 +84,7 @@ fun MedicamentoItem(
             Row() {
                 IconButton(
                     onClick = {
-                        navController.navigate(Routes.UPDATE_MEDICAMENTO)
+                        navController.navigate("${Routes.UPDATE_MEDICAMENTO}/${medicamento.id}")
                     }, colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.Blue
                     )

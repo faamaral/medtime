@@ -29,7 +29,6 @@ class MedicamentoViewModel : ViewModel() {
         _medicamentoState.value = MedicamentoState.Init
     }
 
-
     fun salvarMedicamento(medicamento: Medicamento) {
         _medicamentoState.value = MedicamentoState.Loading
         medicamentoRepository.createMedicamento(medicamento).addOnSuccessListener {
@@ -43,8 +42,8 @@ class MedicamentoViewModel : ViewModel() {
         _medicamentoState.value = MedicamentoState.Loading
         medicamentoRepository.updateMedicamento(medicamento).addOnSuccessListener {
             _medicamentoState.value = MedicamentoState.Done
-        }.addOnFailureListener {
-            _medicamentoState.value = MedicamentoState.Error(it.message ?: "Erro desconhecido")
+        }.addOnFailureListener { exception ->
+            _medicamentoState.value = MedicamentoState.Error(exception.message ?: "Erro desconhecido")
         }
     }
 
@@ -101,6 +100,11 @@ class MedicamentoViewModel : ViewModel() {
             // Todo erro
         }
     }
+
+    fun obterMedicamentoPorId(id: String): Medicamento? {
+        return medicamentosLiveData.value?.find { it.id == id }
+    }
+
 
     /**
      * Função para popular o banco de dados com dados ficticios

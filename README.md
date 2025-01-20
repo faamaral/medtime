@@ -2,6 +2,29 @@
 
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 
+## Capturas de Tela
+
+
+
+<div style="display:flex; flex-direction: row; justify-content: space-evenly; margin-top: 20px;">
+  <img src="docs/images/tela_inicial.png" alt="Home Screen" width="180">
+  <img src="docs/images/cadastrar_medicamento.png" alt="Cadastrar Medicamento" width="180">
+  <img src="docs/images/editar_medicamentos.png" alt="Editar Medicamento" width="180">
+  <img src="docs/images/excluir_medicamento.png" alt="Excluir Medicamento" width="180">
+</div>
+
+## Funcionalidades
+
+- Cadastrar medicamento
+- Editar dados dos medicamento cadastrado
+- Exibir lista de medicamentos
+- Excluir medicamento
+
+## Ferramentas e Tecnologias
+
+- Firebase Cloud Firestore
+- Jetpack Compose
+
 ## Baixar e configurar o projeto
 
 - Clonar o repositório

@@ -1,12 +1,20 @@
 package com.digitaldose.medtime.viewmodels
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.models.NotificationItem
 import com.digitaldose.medtime.repositories.MedicamentoRepository
-import com.google.firebase.firestore.FirebaseFirestore
+import com.digitaldose.medtime.services.notification.MedicamentoNotification
+import com.digitaldose.medtime.services.notification.Notification
+import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
+import com.digitaldose.medtime.utils.helpers.HorariosHelper
 import com.google.firebase.firestore.FirebaseFirestoreException
 import io.github.serpro69.kfaker.Faker
 import kotlinx.coroutines.launch
@@ -29,9 +37,25 @@ class MedicamentoViewModel : ViewModel() {
         _medicamentoState.value = MedicamentoState.Init
     }
 
-    fun salvarMedicamento(medicamento: Medicamento) {
+    fun salvarMedicamento(medicamento: Medicamento, context: Context) {
         _medicamentoState.value = MedicamentoState.Loading
         medicamentoRepository.createMedicamento(medicamento).addOnSuccessListener {
+            try {
+                val timeInMillis = HorariosHelper.converterHorarioStringParaLong(medicamento.horario!!)
+                timeInMillis.forEachIndexed { index, horario ->
+                    val medicamentoNotification = NotificationAlarmScheduler(context)
+                    medicamentoNotification.schedule(
+                        NotificationItem(
+                            time = horario,
+                            id = index,
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                Log.d("Notification", e.message.toString())
+               Toast.makeText(context, "${e.message}", Toast.LENGTH_LONG).show()
+            }
+
             _medicamentoState.value = MedicamentoState.Done
         }.addOnFailureListener {
             _medicamentoState.value = MedicamentoState.Error(it.message ?: "Erro desconhecido")

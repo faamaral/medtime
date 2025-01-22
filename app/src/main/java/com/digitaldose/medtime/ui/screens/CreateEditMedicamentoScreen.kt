@@ -96,7 +96,7 @@ fun CreateEditMedicamentoScreen(
                                 medicamentoAtualizado.id = medicamentoId!!
                                 medicamentoViewModel.atualizarMedicamento(medicamentoAtualizado)
                             } else {
-                                medicamentoViewModel.salvarMedicamento(medicamentoAtualizado)
+                                medicamentoViewModel.salvarMedicamento(medicamentoAtualizado, context)
                             }
                             navController.popBackStack()
                         }

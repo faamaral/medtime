@@ -1,6 +1,7 @@
 package com.digitaldose.medtime.ui.screens
 
 import android.annotation.SuppressLint
+import android.icu.util.Calendar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import com.digitaldose.medtime.models.NotificationItem
+import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
 import com.digitaldose.medtime.ui.components.MedicamentoItem
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoState
@@ -50,6 +53,10 @@ fun HomeScreen(
     val medicamentos = medicamentoViewModel.obterMedicamentos().observeAsState(mutableListOf()).value
     val medicamentoState = medicamentoViewModel.medicamentoState.observeAsState()
     val context = LocalContext.current
+    val notificationAlarmScheduler by lazy {
+        NotificationAlarmScheduler(context)
+    }
+
 
     if (shouldRefresh) {
         LaunchedEffect(Unit) {
@@ -76,6 +83,14 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
+                    val reminderItem = NotificationItem(
+                        time = Calendar.getInstance().apply {
+                            set(Calendar.HOUR_OF_DAY, 15)
+                            set(Calendar.MINUTE, 47)
+                        }.timeInMillis,
+                        id = 1,
+                    )
+                    notificationAlarmScheduler.schedule(reminderItem)
                     navController.navigate(Routes.CREATE_MEDICAMENTO)
                 },
                 containerColor = Color.DarkGray,

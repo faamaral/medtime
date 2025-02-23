@@ -10,5 +10,8 @@ class Routes {
         const val CREATE_MEDICAMENTO = "create_medicamento"
         const val UPDATE_MEDICAMENTO = "update_medicamento/{medicamentoId}"
         const val DELETE_MEDICAMENTO = "delete_medicamento"
+        const val MENU = "menu"
+        const val SETTINGS = "settings"
+
     }
 }

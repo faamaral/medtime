@@ -8,6 +8,7 @@ class CustomColors {
         val RED_BOTTON_MENU = Color(0xff520707)
         val DeleteIconColor = Color(0xffB40F0F)
         val ColorButton = Color(0xff690707)
+        val CARD_CONTAINER_COLOR_MEDICAMENTO_ITEM = Color(0xffF3F2F2)
     }
 }
 val Purple80 = Color(0xFFD0BCFF)

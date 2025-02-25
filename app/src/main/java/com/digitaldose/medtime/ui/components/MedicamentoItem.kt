@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
@@ -118,6 +119,7 @@ fun MedicamentoItem(
 
                 Row(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(8.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                         IconButton(
+                            modifier = Modifier.size(43.dp),
                             onClick = {
                                 navController.navigate("${Routes.UPDATE_MEDICAMENTO}/${medicamento.id}")
                             }, colors = IconButtonDefaults.iconButtonColors(
@@ -138,6 +140,7 @@ fun MedicamentoItem(
 //                    )
 //                }
                         IconButton(
+                            modifier = Modifier.size(43.dp),
                             onClick = {
                                 alertDialog()
                             }, colors = IconButtonDefaults.iconButtonColors(

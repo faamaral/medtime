@@ -43,6 +43,7 @@ import androidx.navigation.NavController
 import com.digitaldose.medtime.models.NotificationItem
 import com.digitaldose.medtime.models.TabBarItem
 import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
+import com.digitaldose.medtime.ui.components.AppBar
 import com.digitaldose.medtime.ui.components.MedicamentoItem
 import com.digitaldose.medtime.ui.components.TabView
 import com.digitaldose.medtime.ui.theme.CustomColors
@@ -102,14 +103,8 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Medicamentos") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = CustomColors.RED_APPBAR,
-                    titleContentColor = Color.White,
-                    actionIconContentColor = Color.White,
-                    navigationIconContentColor = Color.White
-                ),
+            AppBar(
+                title = "Medicamentos",
                 actions = {
                     IconButton(onClick = {
                         navController.navigate(Routes.CREATE_MEDICAMENTO)

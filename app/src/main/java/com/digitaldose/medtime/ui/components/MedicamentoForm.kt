@@ -1,9 +1,16 @@
 import android.annotation.SuppressLint
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,14 +20,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.ui.components.CustomOutlinedTextField
+import com.digitaldose.medtime.ui.theme.CustomColors
 
 /**
  * @author Ramiro Alves <ramiroalves.dev@gmail.com>
  * @since 17/11/2024
-*/
+ */
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
@@ -47,37 +60,38 @@ fun MedicamentoForm(
         }
     }
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        OutlinedTextField(
+    Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        CustomOutlinedTextField(
             value = nome,
             onValueChange = { nome = it },
-            label = { Text("Nome") },
-            modifier = Modifier.fillMaxWidth()
+            label = "Nome",
+//            modifier = Modifier.fillMaxWidth(),
         )
-        OutlinedTextField(
+        Spacer(modifier = Modifier.padding(5.dp))
+        CustomOutlinedTextField(
             value = descricao,
             onValueChange = { descricao = it },
-            label = { Text("Descrição") },
-            modifier = Modifier.fillMaxWidth()
+            label = "Descrição",
         )
-        OutlinedTextField(
+        Spacer(modifier = Modifier.padding(5.dp))
+        CustomOutlinedTextField(
             value = dosagem,
             onValueChange = { dosagem = it },
-            label = { Text("Dosagem") },
-            modifier = Modifier.fillMaxWidth()
+            label = "Dosagem",
         )
-        OutlinedTextField(
+        Spacer(modifier = Modifier.padding(5.dp))
+        CustomOutlinedTextField(
             value = frequencia,
             onValueChange = { frequencia = it },
-            label = { Text("Frequência") },
-            modifier = Modifier.fillMaxWidth()
+            label = "Frequência",
         )
-        OutlinedTextField(
+        Spacer(modifier = Modifier.padding(5.dp))
+        CustomOutlinedTextField(
             value = horario,
             onValueChange = { horario = it },
-            label = { Text("Horário") },
-            modifier = Modifier.fillMaxWidth()
+            label = "Horário",
         )
+        Spacer(modifier = Modifier.padding(30.dp))
         Button(
             onClick = {
                 val novoMedicamento = Medicamento(
@@ -89,9 +103,14 @@ fun MedicamentoForm(
                 )
                 onSave(novoMedicamento)
             },
-            modifier = Modifier.align(Alignment.End)
+            colors = ButtonDefaults.buttonColors(
+                containerColor = CustomColors.RED_BOTTON_MENU,
+                contentColor = CustomColors.TextColor
+            ),
+            modifier = Modifier.fillMaxWidth(0.9f).padding(16.dp),
+            shape = RoundedCornerShape(8.dp)
         ) {
-            Text("Salvar")
+            Text("Cadastrar", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, modifier = Modifier.padding(8.dp))
         }
     }
 }

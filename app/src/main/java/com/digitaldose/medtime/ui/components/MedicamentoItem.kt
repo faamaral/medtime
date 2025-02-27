@@ -3,11 +3,19 @@ package com.digitaldose.medtime.ui.components
 import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -23,12 +31,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.HorizontalAlignmentLine
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.ui.theme.CustomColors
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +75,8 @@ fun MedicamentoItem(
                 scope.launch(Dispatchers.Main) {
                     listaMedicamentos.removeAt(index)
                     navController.navigate(Routes.HOME)
-                    Toast.makeText(context, "Medicamento excluído com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Medicamento excluído com sucesso!", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             .setNegativeButton("Não") { _, _ ->
@@ -75,25 +90,44 @@ fun MedicamentoItem(
 //            .clickable { onClick() }
         ,
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = CustomColors.CARD_CONTAINER_COLOR_MEDICAMENTO_ITEM
+        ),
+        border = CardDefaults.outlinedCardBorder(
+            enabled = true
         )
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text("${medicamento.nome}")
-            Text("${medicamento.descricao}")
-            Text("Dosagem: ${medicamento.dosagem}")
-            Text("Frequência: ${medicamento.frequencia}")
-            Text("Horarios: ${medicamento.horario.toString()}")
-            Row() {
-                IconButton(
-                    onClick = {
-                        navController.navigate("${Routes.UPDATE_MEDICAMENTO}/${medicamento.id}")
-                    }, colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = Color.Blue
-                    )
-                ) {
-                    Icon(Icons.Filled.Edit, contentDescription = "Editar")
-                }
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(alignment = Alignment.CenterHorizontally)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.fillMaxWidth(0.7f)) {
+                Text(
+                    "${medicamento.nome}",
+                    fontStyle = FontStyle.Normal,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text("${medicamento.descricao}")
+                Text("Dosagem: ${medicamento.dosagem} ${medicamento.tipoDosagem.orEmpty()}")
+                Text("Frequência: ${medicamento.frequencia}")
+                Text("Horarios: ${medicamento.horario.toString()}")
+
+            }
+
+                Row(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(8.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                        IconButton(
+                            modifier = Modifier.size(43.dp),
+                            onClick = {
+                                navController.navigate("${Routes.UPDATE_MEDICAMENTO}/${medicamento.id}")
+                            }, colors = IconButtonDefaults.iconButtonColors(
+                                contentColor = Color.Blue
+                            )
+                        ) {
+                            Icon(Icons.Filled.Edit, contentDescription = "Editar")
+                        }
 //                if (showDialog.value) {
 //                    DeleteItem1(
 //                        onConfirmButton = {
@@ -105,16 +139,21 @@ fun MedicamentoItem(
 //                        setShowDialog = {showDialog.value = it}
 //                    )
 //                }
-                IconButton(
-                    onClick = {
-                        alertDialog()
-                    }, colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = Color.Red
-                    )
-                ) {
-                    Icon(Icons.Filled.Delete, contentDescription = "Excluir")
+                        IconButton(
+                            modifier = Modifier.size(43.dp),
+                            onClick = {
+                                alertDialog()
+                            }, colors = IconButtonDefaults.iconButtonColors(
+                                contentColor = Color.Red
+                            )
+                        ) {
+                            Icon(Icons.Filled.Delete, contentDescription = "Excluir")
+                        }
+
+
                 }
-            }
+
         }
+
     }
 }

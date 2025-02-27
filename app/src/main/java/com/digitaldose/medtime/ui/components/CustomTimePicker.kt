@@ -58,7 +58,7 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimePickerComponent(addHorario: (String) -> Unit) {
+fun TimePickerComponent(addHorario: (String) -> Unit, label: String, modifier: Modifier) {
     //TODO add date picker state
 
     //TODO add time picker state
@@ -87,40 +87,40 @@ fun TimePickerComponent(addHorario: (String) -> Unit) {
 //            Text(text = "Date Picker")
 //        }
 
-        Text(text = "Horário Inicial")
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedTextField(
+            CustomOutlinedTextField(
                 readOnly = true,
                 value = selectedHorario,
                 onValueChange = {},
-                placeholder = {
-                    Text(text = "00:00")
-                },
-//                    label = {
-//                        Text(text = "Horário Inicial")
-//                    },
-                modifier = Modifier.clickable(onClick = {
-                    showTimePicker = true
-                })
-
-            )
-            IconButton(
-                onClick = {
-                    showTimePicker = true
-                },
+//                placeholder = {
+//                    Text(text = "00:00")
+//                },
+                label = label,
+//                modifier = Modifier.clickable(onClick = {
+//                    showTimePicker = true
+//                }),
+                modifier = modifier,
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            showTimePicker = true
+                        },
 //                    modifier = Modifier.fillMaxHeight()
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.baseline_access_alarm_24),
-                    contentDescription = "Select Time",
-                    tint = Color.DarkGray
-                )
-            }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_access_alarm_24),
+                            contentDescription = "Select Time",
+                            tint = Color.DarkGray
+                        )
+                    }
+                }
+            )
+
 
 
         }
@@ -160,7 +160,7 @@ fun TimePickerComponent(addHorario: (String) -> Unit) {
                                 selectedHorario = "0${selectedTime.get(Calendar.HOUR_OF_DAY)}:${selectedTime.get(Calendar.MINUTE)}"
                             }
                             timePickerState.hour > 9 && timePickerState.minute <= 9 -> {
-                                selectedHorario = "${selectedTime.get(Calendar.HOUR_OF_DAY)}:${selectedTime.get(Calendar.MINUTE)}"
+                                selectedHorario = "${selectedTime.get(Calendar.HOUR_OF_DAY)}:0${selectedTime.get(Calendar.MINUTE)}"
                             }
                             else -> {
                                 selectedHorario =

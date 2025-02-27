@@ -34,11 +34,11 @@ fun DropdownMenuComponent(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
-        OutlinedTextField(
+        CustomOutlinedTextField(
             readOnly = true,
             value = selectedOption,
             onValueChange = {},
-            label = { Text(text = label) },
+            label = label,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,6 +31,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.ui.components.AppBar
+import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoState
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 
@@ -49,7 +52,7 @@ fun CreateEditMedicamentoScreen(
 
     val context = LocalContext.current
     val isEditing = medicamentoId != null
-    val titulo = if (isEditing) "Editar Medicamento" else "Criar Medicamento"
+    val titulo = if (isEditing) "Editar" else "Cadastrar"
 
     // Estados locais para os campos (inicializados vazios)
     var medicamento by remember { mutableStateOf<Medicamento?>(null) }
@@ -63,11 +66,11 @@ fun CreateEditMedicamentoScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(titulo) },
+            AppBar(
+                title = titulo,
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate("home") }) { // Substitua "home" pela rota da tela inicial
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar para Home")
+                    IconButton(onClick = { navController.navigate(Routes.HOME) }) { // Substitua "home" pela rota da tela inicial
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar para Home")
                     }
                 }
             )
@@ -96,7 +99,7 @@ fun CreateEditMedicamentoScreen(
                                 medicamentoAtualizado.id = medicamentoId!!
                                 medicamentoViewModel.atualizarMedicamento(medicamentoAtualizado)
                             } else {
-                                medicamentoViewModel.salvarMedicamento(medicamentoAtualizado)
+                                medicamentoViewModel.salvarMedicamento(medicamentoAtualizado, context)
                             }
                             navController.popBackStack()
                         }

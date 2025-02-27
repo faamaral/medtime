@@ -17,7 +17,9 @@ data class Medicamento(
     var nome: String? = null,
     var descricao: String? = null,
     var dosagem: String? = null,
+    var tipoDosagem: String? = null,
     var frequencia: String? = null,
+    var intervalo: Int? = null,
     var horario: List<String>? = emptyList()
 ) {
    companion object {
@@ -33,7 +35,9 @@ data class Medicamento(
             "nome" to nome,
             "descricao" to descricao,
             "dosagem" to dosagem,
+            "tipoDosagem" to tipoDosagem,
             "frequencia" to frequencia,
+            "intervalo" to intervalo,
             "horario" to horario
         )
     }

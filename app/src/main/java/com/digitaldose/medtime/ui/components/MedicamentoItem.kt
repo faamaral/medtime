@@ -111,7 +111,7 @@ fun MedicamentoItem(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text("${medicamento.descricao}")
-                Text("Dosagem: ${medicamento.dosagem}")
+                Text("Dosagem: ${medicamento.dosagem} ${medicamento.tipoDosagem.orEmpty()}")
                 Text("Frequência: ${medicamento.frequencia}")
                 Text("Horarios: ${medicamento.horario.toString()}")
 

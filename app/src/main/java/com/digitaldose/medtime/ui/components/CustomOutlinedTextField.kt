@@ -18,7 +18,15 @@ import com.digitaldose.medtime.ui.theme.CustomColors
  */
 
 @Composable
-fun CustomOutlinedTextField(value: String, onValueChange: (String) -> Unit, label: String){
+fun CustomOutlinedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    readOnly: Boolean = false,
+    trailingIcon: @Composable() (() -> Unit)? = null,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    placeholder: @Composable() (() -> Unit)? = null
+) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -30,7 +38,7 @@ fun CustomOutlinedTextField(value: String, onValueChange: (String) -> Unit, labe
                 fontSize = 16.sp
             )
         },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedContainerColor = CustomColors.OutlinedTextFiledContainerColor,
             focusedContainerColor = CustomColors.OutlinedTextFiledContainerColor,
@@ -38,6 +46,9 @@ fun CustomOutlinedTextField(value: String, onValueChange: (String) -> Unit, labe
             unfocusedBorderColor = CustomColors.OutlinedTextFieldBorderColor,
             focusedLabelColor = CustomColors.OutlinedTextFieldLabelColor
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        readOnly = readOnly,
+        trailingIcon = trailingIcon,
+        placeholder = placeholder
     )
 }

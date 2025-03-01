@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import com.digitaldose.medtime.models.Medicamento
 import com.digitaldose.medtime.models.NotificationItem
 import com.digitaldose.medtime.repositories.MedicamentoRepository
-import com.digitaldose.medtime.services.notification.MedicamentoNotification
 import com.digitaldose.medtime.services.notification.Notification
 import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
 import com.digitaldose.medtime.utils.helpers.HorariosHelper
@@ -40,6 +39,7 @@ class MedicamentoViewModel : ViewModel() {
     fun salvarMedicamento(medicamento: Medicamento, context: Context) {
         _medicamentoState.value = MedicamentoState.Loading
         medicamentoRepository.createMedicamento(medicamento).addOnSuccessListener {
+            Toast.makeText(context, "Medicamento salvo com sucesso!", Toast.LENGTH_SHORT).show()
             try {
                 val timeInMillis = HorariosHelper.converterHorarioStringParaLong(medicamento.horario!!)
                 timeInMillis.forEachIndexed { index, horario ->
@@ -59,6 +59,7 @@ class MedicamentoViewModel : ViewModel() {
             _medicamentoState.value = MedicamentoState.Done
         }.addOnFailureListener {
             _medicamentoState.value = MedicamentoState.Error(it.message ?: "Erro desconhecido")
+            Toast.makeText(context, "Erro ao salvar medicamento ${it.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

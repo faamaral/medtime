@@ -77,4 +77,8 @@ dependencies {
 
     implementation("io.github.serpro69:kotlin-faker:1.16.0")
 
+    val nav_version = "2.8.7"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
 }

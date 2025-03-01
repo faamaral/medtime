@@ -7,10 +7,10 @@
 
 
 <div style="display:flex; flex-direction: row; justify-content: space-evenly; margin-top: 20px;">
-  <img src="docs/images/tela_inicial.png" alt="Home Screen" width="180">
-  <img src="docs/images/cadastrar_medicamento.png" alt="Cadastrar Medicamento" width="180">
-  <img src="docs/images/editar_medicamentos.png" alt="Editar Medicamento" width="180">
-  <img src="docs/images/excluir_medicamento.png" alt="Excluir Medicamento" width="180">
+  <img src="docs/images/nova_tela_inicial.png" alt="Home Screen" width="180">
+  <img src="docs/images/novo_cadastrar_medicamento.png" alt="Cadastrar Medicamento" width="180">
+  <img src="docs/images/novo_editar_medicamentos.png" alt="Editar Medicamento" width="180">
+  <img src="docs/images/novo_excluir_medicamento.png" alt="Excluir Medicamento" width="180">
 </div>
 
 ## Funcionalidades

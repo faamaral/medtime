@@ -12,7 +12,9 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -29,15 +31,15 @@ import com.digitaldose.medtime.ui.theme.CustomColors
  */
 
 @Composable
-fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
-    var selectedTabIndex by rememberSaveable { mutableStateOf(0  ) }
+fun TabView(tabBarItems: List<TabBarItem>, selectedTab: (Int) -> Unit) {
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     NavigationBar(containerColor = CustomColors.RED_BOTTON_MENU) {
         tabBarItems.forEachIndexed { index, tabBarItem ->
             NavigationBarItem(
                 selected = selectedTabIndex == index,
                 onClick = {
                     selectedTabIndex = index
-                    navController.navigate(tabBarItem.title)
+                    selectedTab(selectedTabIndex)
                 },
                 icon = {
                     TabBarIconView(

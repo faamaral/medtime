@@ -16,6 +16,7 @@ class Routes {
         const val SETTINGS = "settings"
         const val USER_PROFILE = "user_profile/{userId}"
         const val USER_PROFILE_EDIT = "user_profile_edit/{userId}"
+        const val MAIN = "main"
 
     }
 }

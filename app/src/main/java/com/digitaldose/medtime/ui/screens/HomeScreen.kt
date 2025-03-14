@@ -87,18 +87,6 @@ fun HomeScreen(
         NotificationAlarmScheduler(context)
     }
 
-    val homeTab =
-        TabBarItem(Routes.HOME, selectedIcon = Icons.Filled.Home, unselectedIcon = Icons.Outlined.Home)
-    val menuTab =
-        TabBarItem(Routes.MENU, selectedIcon = Icons.Filled.Menu, unselectedIcon = Icons.Outlined.Menu)
-    val settingsTab = TabBarItem(
-        Routes.SETTINGS,
-        selectedIcon = Icons.Filled.Settings,
-        unselectedIcon = Icons.Outlined.Settings
-    )
-
-    val tabBarItens = listOf(homeTab, menuTab, settingsTab)
-
     if (shouldRefresh) {
         LaunchedEffect(Unit) {
             medicamentoViewModel.obterMedicamentosPorUserId(userId)
@@ -115,52 +103,52 @@ fun HomeScreen(
 //
 //    }
 
-    Scaffold(
-        topBar = {
-            AppBar(
-                title = "Medicamentos",
-                actions = {
-                    IconButton(onClick = {
-                        navController.navigate(Routes.CREATE_MEDICAMENTO)
-                    }) {
-                        Icon(Icons.Filled.Add, "Adicionar Medicamento")
-                    }
-                    IconButton(onClick = {
-                        navController.navigate("${Routes.USER_PROFILE}/${FirebaseAuth.getInstance().currentUser?.uid}")
-                    }) {
-                        Icon(Icons.Filled.Person, "Perfil do Usuário")
-                    }
-                }
-            )
-        },
-        bottomBar = {
-            TabView(tabBarItens, navController)
-        },
-
-        /*floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-//                    val reminderItem = NotificationItem(
-//                        time = Calendar.getInstance().apply {
-//                            set(Calendar.HOUR_OF_DAY, 15)
-//                            set(Calendar.MINUTE, 47)
-//                        }.timeInMillis,
-//                        id = 1,
-//                    )
-//                    notificationAlarmScheduler.schedule(reminderItem)
-                    navController.navigate(Routes.CREATE_MEDICAMENTO)
-                },
-                containerColor = Color.DarkGray,
-                contentColor = Color.White,
-                shape = CircleShape,
-                content = {
-                    Icon(Icons.Filled.Add, contentDescription = "Adicionar Medicamento")
-                }
-            )
-        }*/
-    ) {
+//    Scaffold(
+//        topBar = {
+//            AppBar(
+//                title = "Medicamentos",
+//                actions = {
+//                    IconButton(onClick = {
+//                        navController.navigate(Routes.CREATE_MEDICAMENTO)
+//                    }) {
+//                        Icon(Icons.Filled.Add, "Adicionar Medicamento")
+//                    }
+//                    IconButton(onClick = {
+//                        navController.navigate("${Routes.USER_PROFILE}/${FirebaseAuth.getInstance().currentUser?.uid}")
+//                    }) {
+//                        Icon(Icons.Filled.Person, "Perfil do Usuário")
+//                    }
+//                }
+//            )
+//        },
+//        bottomBar = {
+//            TabView(tabBarItens, navController)
+//        },
+//
+//        /*floatingActionButton = {
+//            FloatingActionButton(
+//                onClick = {
+////                    val reminderItem = NotificationItem(
+////                        time = Calendar.getInstance().apply {
+////                            set(Calendar.HOUR_OF_DAY, 15)
+////                            set(Calendar.MINUTE, 47)
+////                        }.timeInMillis,
+////                        id = 1,
+////                    )
+////                    notificationAlarmScheduler.schedule(reminderItem)
+//                    navController.navigate(Routes.CREATE_MEDICAMENTO)
+//                },
+//                containerColor = Color.DarkGray,
+//                contentColor = Color.White,
+//                shape = CircleShape,
+//                content = {
+//                    Icon(Icons.Filled.Add, contentDescription = "Adicionar Medicamento")
+//                }
+//            )
+//        }*/
+//    ) {
         LazyColumn(modifier = Modifier
-            .padding(top = it.calculateTopPadding())
+            .padding()
             .fillMaxSize()) {
             itemsIndexed(medicamentos) { index, item ->
                 MedicamentoItem(
@@ -176,7 +164,7 @@ fun HomeScreen(
                 )
             }
         }
-    }
+//    }
 }
 
 //@Composable

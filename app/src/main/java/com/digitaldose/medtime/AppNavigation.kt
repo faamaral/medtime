@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.digitaldose.medtime.ui.screens.HomeScreen
+import com.digitaldose.medtime.ui.screens.MainScreen
 import com.digitaldose.medtime.ui.screens.MenuScreen
 import com.digitaldose.medtime.ui.screens.SettingsScreen
 import com.digitaldose.medtime.ui.screens.auth.LoginScreen
@@ -33,12 +34,15 @@ fun AppNavigation(
     userViewModel: UserViewModel
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Routes.HOME, builder = {
+    NavHost(navController = navController, startDestination = Routes.MAIN, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(Modifier, navController, authViewModel)
         }
         composable(Routes.SIGNUP) {
             SignupScreen(Modifier, navController, authViewModel)
+        }
+        composable(Routes.MAIN) {
+            MainScreen(navController, medicamentoViewModel, authViewModel)
         }
         composable(Routes.HOME, arguments = listOf(navArgument("shouldRefresh") {
             type = NavType.BoolType

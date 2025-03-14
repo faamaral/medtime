@@ -88,7 +88,7 @@ fun UserProfileScreen(
             AppBar(
                 title = "Perfil",
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate(Routes.HOME) }) { // Substitua "home" pela rota da tela inicial
+                    IconButton(onClick = { navController.navigate(Routes.MAIN) }) { // Substitua "home" pela rota da tela inicial
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Voltar para Home"

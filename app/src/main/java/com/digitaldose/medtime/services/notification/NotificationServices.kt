@@ -3,7 +3,7 @@ package com.digitaldose.medtime.services.notification
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.digitaldose.medtime.R
-import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.database.models.Medicamento
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>

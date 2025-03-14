@@ -40,16 +40,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import com.digitaldose.medtime.models.NotificationItem
-import com.digitaldose.medtime.models.TabBarItem
+import com.digitaldose.medtime.database.models.NotificationItem
+import com.digitaldose.medtime.database.models.TabBarItem
 import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
 import com.digitaldose.medtime.ui.components.AppBar
 import com.digitaldose.medtime.ui.components.MedicamentoItem
 import com.digitaldose.medtime.ui.components.TabView
 import com.digitaldose.medtime.ui.theme.CustomColors
 import com.digitaldose.medtime.utils.constants.Routes
+import com.digitaldose.medtime.viewmodels.AuthState
+import com.digitaldose.medtime.viewmodels.AuthViewModel
 import com.digitaldose.medtime.viewmodels.MedicamentoState
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
@@ -61,12 +64,23 @@ import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 fun HomeScreen(
     navController: NavController,
     medicamentoViewModel: MedicamentoViewModel,
+    authViewModel: AuthViewModel,
     modifier: Modifier,
     shouldRefresh: Boolean
 ) {
+    val authState = authViewModel.authState.observeAsState()
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Unauthenticated -> {
+                navController.navigate(Routes.LOGIN)
+            }
+            else -> {}
+        }
+    }
+    val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     // Observa os medicamentos da ViewModel
     val medicamentos =
-        medicamentoViewModel.obterMedicamentos().observeAsState(mutableListOf()).value
+        medicamentoViewModel.obterMedicamentosPorUserId(userId).observeAsState(mutableListOf()).value
     val medicamentoState = medicamentoViewModel.medicamentoState.observeAsState()
     val context = LocalContext.current
     val notificationAlarmScheduler by lazy {
@@ -87,7 +101,7 @@ fun HomeScreen(
 
     if (shouldRefresh) {
         LaunchedEffect(Unit) {
-            medicamentoViewModel.obterMedicamentos()
+            medicamentoViewModel.obterMedicamentosPorUserId(userId)
         }
     }
 
@@ -111,7 +125,9 @@ fun HomeScreen(
                     }) {
                         Icon(Icons.Filled.Add, "Adicionar Medicamento")
                     }
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        navController.navigate("${Routes.USER_PROFILE}/${FirebaseAuth.getInstance().currentUser?.uid}")
+                    }) {
                         Icon(Icons.Filled.Person, "Perfil do Usuário")
                     }
                 }

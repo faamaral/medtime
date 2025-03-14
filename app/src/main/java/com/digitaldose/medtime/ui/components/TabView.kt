@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
-import com.digitaldose.medtime.models.TabBarItem
+import com.digitaldose.medtime.database.models.TabBarItem
 import com.digitaldose.medtime.ui.theme.CustomColors
 
 /**
@@ -30,7 +30,7 @@ import com.digitaldose.medtime.ui.theme.CustomColors
 
 @Composable
 fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
-    var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
+    var selectedTabIndex by rememberSaveable { mutableStateOf(0  ) }
     NavigationBar(containerColor = CustomColors.RED_BOTTON_MENU) {
         tabBarItems.forEachIndexed { index, tabBarItem ->
             NavigationBarItem(

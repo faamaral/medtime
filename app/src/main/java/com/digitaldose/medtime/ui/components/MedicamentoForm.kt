@@ -1,6 +1,7 @@
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
@@ -30,7 +31,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.database.models.Medicamento
+import com.digitaldose.medtime.database.models.NotificationItem
+import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
 import com.digitaldose.medtime.ui.components.CustomOutlinedTextField
 import com.digitaldose.medtime.ui.components.DropdownMenuComponent
 import com.digitaldose.medtime.ui.components.IntervaloDialog
@@ -38,7 +41,9 @@ import com.digitaldose.medtime.ui.components.TimePickerComponent
 import com.digitaldose.medtime.ui.theme.CustomColors
 import com.digitaldose.medtime.utils.constants.ListsCadastroMedicamentos
 import com.digitaldose.medtime.utils.constants.Routes
+import com.digitaldose.medtime.utils.helpers.HorariosHelper
 import com.google.common.collect.Lists
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -71,6 +76,7 @@ fun MedicamentoForm(
     var selectedFrequenciaOptionText by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+    val user = FirebaseAuth.getInstance().currentUser
 
     var openAlertDialog by remember { mutableStateOf<Boolean>(false) }
 
@@ -81,7 +87,12 @@ fun MedicamentoForm(
             descricao = it.descricao.orEmpty()
             dosagem = it.dosagem.orEmpty()
             frequencia = it.frequencia.orEmpty()
-            horario = it.horario?.joinToString(", ").orEmpty()
+            horario = it.horario?.get(0).toString()
+            intervalo = it.intervalo.toString().orEmpty()
+            selectedOptionText = it.tipoDosagem.orEmpty()
+            selectedFrequenciaOptionText =
+                if (it.frequencia?.isBlank() == true) "" else ((if (it.frequencia != ListsCadastroMedicamentos.TiposDosagem[0] && it.frequencia != ListsCadastroMedicamentos.frequencia[2]) ListsCadastroMedicamentos.frequencia[1] else it.frequencia).toString())
+
         }
     }
 
@@ -148,10 +159,12 @@ fun MedicamentoForm(
         if (selectedFrequenciaOptionText == ListsCadastroMedicamentos.frequencia[1]) {
             when {
                 openAlertDialog -> {
-                    IntervaloDialog(onDismiss = { openAlertDialog = false }, onConfirm = {novoIntervalo ->
-                        intervalo = novoIntervalo.toString()
-                        openAlertDialog = false
-                    })
+                    IntervaloDialog(
+                        onDismiss = { openAlertDialog = false },
+                        onConfirm = { novoIntervalo ->
+                            intervalo = novoIntervalo.toString()
+                            openAlertDialog = false
+                        })
                 }
             }
             Spacer(modifier = Modifier.padding(5.dp))
@@ -163,19 +176,29 @@ fun MedicamentoForm(
                     Text(text = "Clique no icone para adicionar um intervalo")
                 },
                 readOnly = true,
-                modifier = Modifier.fillMaxWidth().clickable(onClick = {openAlertDialog=true}),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = { openAlertDialog = true }),
                 trailingIcon = {
                     IconButton(onClick = {
                         openAlertDialog = true
                     }) {
-                        Icon(imageVector = Icons.Filled.AddCircle, contentDescription = "Add Intervalo")
+                        Icon(
+                            imageVector = Icons.Filled.AddCircle,
+                            contentDescription = "Add Intervalo"
+                        )
                     }
                 }
             )
         }
         if (selectedFrequenciaOptionText.isNotBlank()) {
             Spacer(modifier = Modifier.padding(5.dp))
-            TimePickerComponent(addHorario = { it -> horario = it }, label = if (selectedFrequenciaOptionText == ListsCadastroMedicamentos.frequencia[1]) "Horário Inicial" else "Horário",modifier = Modifier.fillMaxWidth())
+            TimePickerComponent(
+                value = horario,
+                addHorario = { it -> horario = it },
+                label = if (selectedFrequenciaOptionText == ListsCadastroMedicamentos.frequencia[1]) "Horário Inicial" else "Horário",
+                modifier = Modifier.fillMaxWidth()
+            )
         }
         Spacer(modifier = Modifier.padding(30.dp))
         Button(
@@ -191,20 +214,41 @@ fun MedicamentoForm(
                         }
                         i++
                     }
-                }
-                else {
+                } else {
                     horarios.add(horario)
                 }
-                val horas = horarios
                 val novoMedicamento = Medicamento(
                     nome = nome,
                     descricao = descricao,
                     dosagem = dosagem,
                     tipoDosagem = selectedOptionText,
-                    frequencia = if (frequencia == ListsCadastroMedicamentos.frequencia[1]) "${(24/intervalo.toInt())} vezes ao dia" else frequencia,
+                    frequencia = if (frequencia == ListsCadastroMedicamentos.frequencia[1]) "${(24 / intervalo.toInt())} vezes ao dia" else frequencia,
                     intervalo = intervalo.toIntOrNull(),
-                    horario = horarios
+                    horario = horarios,
+                    userId = user?.uid.toString()
                 )
+                try {
+                    val timeInMillis =
+                        HorariosHelper.converterHorarioStringParaLong(novoMedicamento.horario!!)
+                    timeInMillis.forEachIndexed { index, horario ->
+                        val medicamentoNotification = NotificationAlarmScheduler(context)
+                        medicamentoNotification.schedule(
+                            NotificationItem(
+                                time = horario,
+                                id = index,
+                                medicamento = novoMedicamento
+                            )
+                        )
+                    }
+                    Toast.makeText(
+                        context,
+                        "Medicamento cadastrado com sucesso!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } catch (e: Exception) {
+                    Log.d("Notification", e.message.toString())
+                    Toast.makeText(context, "${e.message}", Toast.LENGTH_LONG).show()
+                }
                 onSave(novoMedicamento)
             },
             colors = ButtonDefaults.buttonColors(

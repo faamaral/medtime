@@ -4,7 +4,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.digitaldose.medtime.models.NotificationItem
+import com.digitaldose.medtime.database.models.Medicamento
+import com.digitaldose.medtime.database.models.NotificationItem
 import com.digitaldose.medtime.services.receiver.AlarmReceiver
 
 /**
@@ -17,7 +18,11 @@ class NotificationAlarmScheduler(
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     override fun createPedingIntent(notificationItem: NotificationItem): PendingIntent {
-        val intent = Intent(context, AlarmReceiver::class.java)
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            putExtra("medicamento", notificationItem.medicamento.nome)
+            putExtra("dosagem", notificationItem.medicamento.dosagem)
+            putExtra("tipoDosagem", notificationItem.medicamento.tipoDosagem)
+        }
         return PendingIntent.getBroadcast(
             context,
             notificationItem.id,

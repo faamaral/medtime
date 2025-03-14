@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.digitaldose.medtime" />
-                  <option name="mobileSdkAppId" value="1:98260181428:android:93bdcaaa068c62042b12e1" />
-                  <option name="projectId" value="medtime-f9c85" />
-                  <option name="projectNumber" value="98260181428" />
+                  <option name="mobileSdkAppId" value="1:581362372947:android:330d4b43eb1a9be1c191a6" />
+                  <option name="projectId" value="teste-d75e9" />
+                  <option name="projectNumber" value="581362372947" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -30,7 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.database.models.Medicamento
 import com.digitaldose.medtime.ui.components.AppBar
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoState
@@ -69,7 +69,7 @@ fun CreateEditMedicamentoScreen(
             AppBar(
                 title = titulo,
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate(Routes.HOME) }) { // Substitua "home" pela rota da tela inicial
+                    IconButton(onClick = { navController.navigate(Routes.MAIN) }) { // Substitua "home" pela rota da tela inicial
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar para Home")
                     }
                 }

@@ -1,5 +1,6 @@
 package com.digitaldose.medtime.ui.components
 
+import android.icu.util.Calendar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.digitaldose.medtime.R
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -136,6 +138,7 @@ fun DatePickerComponent(
 //
 //        }
         DatePickerModal(
+            data = if (value.isBlank()) null else stringParaLong(value),
             addData,
             onDateSelected = { selectedDate = it },
             onDismiss = { showDatePicker = false }
@@ -166,11 +169,16 @@ fun DatePickerComponent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerModal(
+    data: Long?,
     addData: (String) -> Unit,
     onDateSelected: (Long?) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val datePickerState = rememberDatePickerState()
+    val currentYear = Calendar.getInstance()
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = data,
+        yearRange = 1922..currentYear.get(Calendar.YEAR)
+    )
 
     DatePickerDialog(
         onDismissRequest = onDismiss,

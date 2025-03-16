@@ -1,6 +1,6 @@
-package com.digitaldose.medtime.repositories
+package com.digitaldose.medtime.database.repositories
 
-import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.database.models.Medicamento
 import com.digitaldose.medtime.utils.constants.Collections
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
@@ -25,7 +25,8 @@ class MedicamentoRepository {
     fun createMedicamento(medicamento: Medicamento): Task<Void> {
         val documentRef = firestoreDB.collection(Collections.MEDICAMENTOS)
             .document(medicamento.id)
-        return documentRef.set(medicamento.toMap())
+//        val med = medicamento.toMap()
+        return documentRef.set(medicamento)
     }
 
     /**
@@ -55,6 +56,16 @@ class MedicamentoRepository {
      */
     fun getMedicamentos(): Task<QuerySnapshot> {
         val documentRef = firestoreDB.collection(Collections.MEDICAMENTOS)
+        return documentRef.get()
+    }
+
+    /**
+     *  Obtém todos os medicamentos do usuário.
+     *  @return Task<QuerySnapshot> Task que contém a lista de medicamentos.
+     */
+    fun getMedicamentosByUserId(userId: String): Task<QuerySnapshot> {
+        val documentRef = firestoreDB.collection(Collections.MEDICAMENTOS)
+            .whereEqualTo("userId", userId)
         return documentRef.get()
     }
 

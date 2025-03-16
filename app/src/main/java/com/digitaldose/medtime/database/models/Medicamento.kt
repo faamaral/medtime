@@ -1,4 +1,4 @@
-package com.digitaldose.medtime.models
+package com.digitaldose.medtime.database.models
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
@@ -13,14 +13,15 @@ import kotlin.random.nextUInt
  * @since 12/11/2024
  */
 data class Medicamento(
-    var id: String = generateDocumentId(),
+    var id: String = Companion.generateDocumentId(),
     var nome: String? = null,
     var descricao: String? = null,
     var dosagem: String? = null,
     var tipoDosagem: String? = null,
     var frequencia: String? = null,
     var intervalo: Int? = null,
-    var horario: List<String>? = emptyList()
+    var horario: List<String>? = emptyList(),
+    var userId: String? = null
 ) {
    companion object {
         fun generateDocumentId(): String {
@@ -38,7 +39,8 @@ data class Medicamento(
             "tipoDosagem" to tipoDosagem,
             "frequencia" to frequencia,
             "intervalo" to intervalo,
-            "horario" to horario
+            "horario" to horario,
+            "userId" to userId
         )
     }
 

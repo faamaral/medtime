@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.digitaldose.medtime.models.Medicamento
+import com.digitaldose.medtime.database.models.Medicamento
 import com.digitaldose.medtime.ui.theme.CustomColors
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel

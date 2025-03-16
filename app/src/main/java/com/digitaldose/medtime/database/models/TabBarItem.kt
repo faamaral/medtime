@@ -1,4 +1,4 @@
-package com.digitaldose.medtime.models
+package com.digitaldose.medtime.database.models
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

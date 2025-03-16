@@ -2,12 +2,15 @@ package com.digitaldose.medtime.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.digitaldose.medtime.ui.theme.CustomColors
@@ -25,7 +28,10 @@ fun CustomOutlinedTextField(
     readOnly: Boolean = false,
     trailingIcon: @Composable() (() -> Unit)? = null,
     modifier: Modifier = Modifier.fillMaxWidth(),
-    placeholder: @Composable() (() -> Unit)? = null
+    placeholder: @Composable() (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     OutlinedTextField(
         value = value,
@@ -49,6 +55,9 @@ fun CustomOutlinedTextField(
         shape = RoundedCornerShape(8.dp),
         readOnly = readOnly,
         trailingIcon = trailingIcon,
-        placeholder = placeholder
+        placeholder = placeholder,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        visualTransformation = visualTransformation
     )
 }

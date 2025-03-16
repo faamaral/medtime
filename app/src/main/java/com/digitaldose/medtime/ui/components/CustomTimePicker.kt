@@ -5,6 +5,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -41,8 +44,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -58,7 +65,12 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimePickerComponent(addHorario: (String) -> Unit, label: String, modifier: Modifier) {
+fun TimePickerComponent(
+    value: String,
+    addHorario: (String) -> Unit,
+    label: String,
+    modifier: Modifier
+) {
     //TODO add date picker state
 
     //TODO add time picker state
@@ -68,49 +80,31 @@ fun TimePickerComponent(addHorario: (String) -> Unit, label: String, modifier: M
         is24Hour = true
     )
     var showTimePicker by remember { mutableStateOf(false) }
-    var selectedHorario by remember { mutableStateOf("") }
+    var selectedHorario by remember { mutableStateOf(value) }
 
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-
-//        Text(text = "No Date Selected", modifier = Modifier.padding(bottom = 16.dp))
-
-//        Button(
-//            onClick = {
-//                //TODO show date picker
-//            },
-//            modifier = Modifier.fillMaxWidth(),
-//        ) {
-//            Text(text = "Date Picker")
-//        }
-
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             CustomOutlinedTextField(
-                readOnly = true,
                 value = selectedHorario,
                 onValueChange = {},
-//                placeholder = {
-//                    Text(text = "00:00")
-//                },
                 label = label,
+                readOnly = true,
 //                modifier = Modifier.clickable(onClick = {
 //                    showTimePicker = true
 //                }),
-                modifier = modifier,
                 trailingIcon = {
                     IconButton(
                         onClick = {
                             showTimePicker = true
                         },
-//                    modifier = Modifier.fillMaxHeight()
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.baseline_access_alarm_24),
@@ -118,23 +112,20 @@ fun TimePickerComponent(addHorario: (String) -> Unit, label: String, modifier: M
                             tint = Color.DarkGray
                         )
                     }
-                }
+                },
+                modifier = modifier.fillMaxWidth().pointerInput(selectedHorario) {
+                    awaitEachGesture {
+                        awaitFirstDown(pass = PointerEventPass.Initial)
+                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                        if (upEvent != null) {
+                            showTimePicker = true
+                        }
+                    }
+                },
             )
 
 
-
         }
-//        Text(text = selectedHorario?: "No Time Selected" , modifier = Modifier.padding(bottom = 16.dp))
-//
-//        Button(
-//            onClick = {
-//                showTimePicker = true
-//            },
-//            modifier = Modifier.fillMaxWidth(),
-//        ) {
-//            Text(text = "Time Picker")
-//        }
-
     }
 
     //TODO show date picker when state is true
@@ -151,20 +142,32 @@ fun TimePickerComponent(addHorario: (String) -> Unit, label: String, modifier: M
                             set(Calendar.HOUR_OF_DAY, timePickerState.hour)
                             set(Calendar.MINUTE, timePickerState.minute)
                         }
-//                        selectedHorario = timePickerState.hour.toString() + ":" + timePickerState.minute.toString()
                         when {
                             timePickerState.hour <= 9 && timePickerState.minute <= 9 -> {
-                                selectedHorario = "0${selectedTime.get(Calendar.HOUR_OF_DAY)}:0${selectedTime.get(Calendar.MINUTE)}"
+                                selectedHorario = "0${selectedTime.get(Calendar.HOUR_OF_DAY)}:0${
+                                    selectedTime.get(Calendar.MINUTE)
+                                }"
                             }
+
                             timePickerState.hour <= 9 && timePickerState.minute > 9 -> {
-                                selectedHorario = "0${selectedTime.get(Calendar.HOUR_OF_DAY)}:${selectedTime.get(Calendar.MINUTE)}"
+                                selectedHorario = "0${selectedTime.get(Calendar.HOUR_OF_DAY)}:${
+                                    selectedTime.get(Calendar.MINUTE)
+                                }"
                             }
+
                             timePickerState.hour > 9 && timePickerState.minute <= 9 -> {
-                                selectedHorario = "${selectedTime.get(Calendar.HOUR_OF_DAY)}:0${selectedTime.get(Calendar.MINUTE)}"
+                                selectedHorario = "${selectedTime.get(Calendar.HOUR_OF_DAY)}:0${
+                                    selectedTime.get(Calendar.MINUTE)
+                                }"
                             }
+
                             else -> {
                                 selectedHorario =
-                                    "${selectedTime.get(Calendar.HOUR_OF_DAY)}:${selectedTime.get(Calendar.MINUTE)}"
+                                    "${selectedTime.get(Calendar.HOUR_OF_DAY)}:${
+                                        selectedTime.get(
+                                            Calendar.MINUTE
+                                        )
+                                    }"
                             }
 
                         }

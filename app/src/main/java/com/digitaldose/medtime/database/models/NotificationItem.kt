@@ -1,4 +1,4 @@
-package com.digitaldose.medtime.models
+package com.digitaldose.medtime.database.models
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
@@ -6,5 +6,6 @@ package com.digitaldose.medtime.models
  */
 data class NotificationItem(
     val time: Long,
-    val id: Int
+    val id: Int,
+    val medicamento: Medicamento
 )

@@ -1,7 +1,7 @@
 package com.digitaldose.medtime.services.notification
 
 import android.app.PendingIntent
-import com.digitaldose.medtime.models.NotificationItem
+import com.digitaldose.medtime.database.models.NotificationItem
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>

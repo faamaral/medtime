@@ -1,6 +1,7 @@
 package com.digitaldose.medtime.utils.helpers
 
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
@@ -20,6 +21,7 @@ class HorariosHelper {
                 val minuto = partes[1].toInt()
 
                 Calendar.getInstance().apply {
+                    timeZone = TimeZone.getTimeZone("America/Sao_Paulo")
                     set(Calendar.HOUR_OF_DAY, hora)
                     set(Calendar.MINUTE, minuto)
                     set(Calendar.SECOND, 0)

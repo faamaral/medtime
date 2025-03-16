@@ -33,6 +33,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.digitaldose.medtime.R
@@ -72,23 +74,10 @@ fun DatePickerComponent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             CustomOutlinedTextField(
-                readOnly = true,
                 value = selectedDate?.let { convertMillisToDate(it) } ?: "",
                 onValueChange = {},
                 label = label,
-                placeholder = { Text("DD/MM/YYYY") },
-//                modifier = Modifier.clickable(onClick = {
-//                    showTimePicker = true
-//                }),
-                modifier = modifier.fillMaxWidth().pointerInput(selectedDate) {
-                    awaitEachGesture {
-                        awaitFirstDown(pass = PointerEventPass.Initial)
-                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                        if (upEvent != null) {
-                            showDatePicker = true
-                        }
-                    }
-                },
+                readOnly = true,
                 trailingIcon = {
                     IconButton(
                         onClick = {
@@ -101,7 +90,20 @@ fun DatePickerComponent(
                             tint = Color.DarkGray
                         )
                     }
-                }
+                },
+//                modifier = Modifier.clickable(onClick = {
+//                    showTimePicker = true
+//                }),
+                modifier = modifier.fillMaxWidth().pointerInput(selectedDate) {
+                    awaitEachGesture {
+                        awaitFirstDown(pass = PointerEventPass.Initial)
+                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                        if (upEvent != null) {
+                            showDatePicker = true
+                        }
+                    }
+                },
+                placeholder = { Text("DD/MM/YYYY") },
             )
 
 

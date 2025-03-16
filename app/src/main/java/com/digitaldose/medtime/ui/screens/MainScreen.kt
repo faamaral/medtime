@@ -15,7 +15,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -25,6 +27,7 @@ import com.digitaldose.medtime.database.models.TabBarItem
 import com.digitaldose.medtime.ui.components.AppBar
 import com.digitaldose.medtime.ui.components.TabView
 import com.digitaldose.medtime.utils.constants.Routes
+import com.digitaldose.medtime.viewmodels.AuthState
 import com.digitaldose.medtime.viewmodels.AuthViewModel
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -40,6 +43,15 @@ fun MainScreen(
     medicamentoViewModel: MedicamentoViewModel,
     authViewModel: AuthViewModel
 ) {
+    val authState = authViewModel.authState.observeAsState()
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Unauthenticated -> {
+                navController.navigate(Routes.LOGIN)
+            }
+            else -> {}
+        }
+    }
     val homeTab =
         TabBarItem(
             Routes.HOME,

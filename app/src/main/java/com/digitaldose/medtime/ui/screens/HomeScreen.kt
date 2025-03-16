@@ -68,15 +68,6 @@ fun HomeScreen(
     modifier: Modifier,
     shouldRefresh: Boolean
 ) {
-    val authState = authViewModel.authState.observeAsState()
-    LaunchedEffect(authState.value) {
-        when (authState.value) {
-            is AuthState.Unauthenticated -> {
-                navController.navigate(Routes.LOGIN)
-            }
-            else -> {}
-        }
-    }
     val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     // Observa os medicamentos da ViewModel
     val medicamentos =

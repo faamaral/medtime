@@ -13,6 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
@@ -35,14 +37,14 @@ fun DropdownMenuComponent(
         onExpandedChange = { expanded = !expanded }
     ) {
         CustomOutlinedTextField(
-            readOnly = true,
             value = selectedOption,
             onValueChange = {},
             label = label,
+            readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
-            modifier = modifier.menuAnchor()
+            modifier = modifier.menuAnchor(),
         )
         ExposedDropdownMenu(
             expanded = expanded,

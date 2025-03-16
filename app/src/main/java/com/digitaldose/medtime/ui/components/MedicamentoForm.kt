@@ -5,6 +5,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +30,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.digitaldose.medtime.database.models.Medicamento
@@ -134,7 +141,7 @@ fun MedicamentoForm(
                 value = dosagem,
                 onValueChange = { dosagem = it },
                 label = "Dosagem",
-                modifier = Modifier.fillMaxWidth(0.6f)
+                modifier = Modifier.fillMaxWidth(0.6f),
             )
             Spacer(modifier = Modifier.padding(5.dp))
             DropdownMenuComponent(
@@ -172,13 +179,16 @@ fun MedicamentoForm(
                 value = if (intervalo.isNotBlank()) "A cada $intervalo hora(s)" else "",
                 onValueChange = {},
                 label = "Intervalo",
-                placeholder = {
-                    Text(text = "Clique no icone para adicionar um intervalo")
-                },
                 readOnly = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = { openAlertDialog = true }),
+                modifier = Modifier.fillMaxWidth().pointerInput(openAlertDialog) {
+                    awaitEachGesture {
+                        awaitFirstDown(pass = PointerEventPass.Initial)
+                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                        if (upEvent != null) {
+                            openAlertDialog = true
+                        }
+                    }
+                },
                 trailingIcon = {
                     IconButton(onClick = {
                         openAlertDialog = true
@@ -188,7 +198,10 @@ fun MedicamentoForm(
                             contentDescription = "Add Intervalo"
                         )
                     }
-                }
+                },
+                placeholder = {
+                    Text(text = "Clique no icone para adicionar um intervalo")
+                },
             )
         }
         if (selectedFrequenciaOptionText.isNotBlank()) {

@@ -48,6 +48,8 @@ import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -91,22 +93,13 @@ fun TimePickerComponent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             CustomOutlinedTextField(
-                readOnly = true,
                 value = selectedHorario,
                 onValueChange = {},
                 label = label,
+                readOnly = true,
 //                modifier = Modifier.clickable(onClick = {
 //                    showTimePicker = true
 //                }),
-                modifier = modifier.fillMaxWidth().pointerInput(selectedHorario) {
-                    awaitEachGesture {
-                        awaitFirstDown(pass = PointerEventPass.Initial)
-                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                        if (upEvent != null) {
-                            showTimePicker = true
-                        }
-                    }
-                },
                 trailingIcon = {
                     IconButton(
                         onClick = {
@@ -119,7 +112,16 @@ fun TimePickerComponent(
                             tint = Color.DarkGray
                         )
                     }
-                }
+                },
+                modifier = modifier.fillMaxWidth().pointerInput(selectedHorario) {
+                    awaitEachGesture {
+                        awaitFirstDown(pass = PointerEventPass.Initial)
+                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                        if (upEvent != null) {
+                            showTimePicker = true
+                        }
+                    }
+                },
             )
 
 

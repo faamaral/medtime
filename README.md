@@ -1,10 +1,20 @@
+<h1 align="center">
 <img src="docs/images/medtime_logo-Photoroom.png">
 
-# Medtime: Aplicativo para gerenciamento de medicação
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-purple?logo=kotlin)](https://kotlinlang.org/docs/getting-started.html)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-blue)](https://developer.android.com/compose)
+[![Firebase Firestore](https://img.shields.io/badge/Firebase%20Firestore-25.1.1-orange?logo=firebase)](https://firebase.google.com/docs/firestore?hl=pt-br)
+[![Release](https://img.shields.io/github/v/release/faamaral/medtime)](https://github.com/faamaral/medtime/releases)
 
-![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
+</h1>
 
-## Capturas de Tela
+___
+
+_Medtime_ é um aplicativo desenvolvido com a finalidade de auxiliar pessoas no acompanhamento de seus tratamentos médicos. O Medtime permite cadastro de medicamentos e horarios de uso, enviando lembretes nos horarios apropriados para garantir que o usuário tome sua medicação no momento correto.
+
+O Medtime foi desenvolvido inicialmente para o trabalho final do AndroidDev Bootcamp oferecido pelo Instituto IRede em parceria com o IFCE (Instituto Federal do Ceara), requisito este para conclusão e aprovação no bootcamp. Mas foram feitas mehorias no aplicativo, como, repaginação da UI e Autenticação de Usuários.
+
+### Capturas de Tela
 
 
 <div>
@@ -23,19 +33,25 @@
 
 [//]: # (</div>)
 
-## Funcionalidades
+### Funcionalidades
 
 - Cadastrar medicamento
 - Editar dados dos medicamento cadastrado
 - Exibir lista de medicamentos
 - Excluir medicamento
+- Enviar notificações com lembretes do horario da medicação
 
-## Ferramentas e Tecnologias
+### Ferramentas e Tecnologias
 
 - Firebase Cloud Firestore
 - Jetpack Compose
 
-## Baixar e configurar o projeto
+
+___
+
+## Intruções de como contribuir (Trabalho final em equipe)
+
+### Baixar e configurar o projeto
 
 - Clonar o repositório
   
@@ -47,7 +63,7 @@
 
 > Vá em: `Configurações do projeto > Geral > Seus aplicativos > Apps Android` e baixo o arquivo `google-services.json` e salve-o na pasta do projeto `~/medtime/app`.
 
-## Importante: Configuração do Git
+### Importante: Configuração do Git
     
 ```shell
     git config --global user.name "Nome Sobrenome"
@@ -56,7 +72,7 @@
     git config --global http.sslVerify false
 ```
 
-## Documentação
+### Documentação
 
 - [Requisitos funcionais basicos](/docs/planning/reqs.md)
 

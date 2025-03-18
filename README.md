@@ -8,8 +8,6 @@
 
 </h1>
 
-___
-
 _Medtime_ é um aplicativo desenvolvido com a finalidade de auxiliar pessoas no acompanhamento de seus tratamentos médicos. O Medtime permite cadastro de medicamentos e horarios de uso, enviando lembretes nos horarios apropriados para garantir que o usuário tome sua medicação no momento correto.
 
 O Medtime foi desenvolvido inicialmente para o trabalho final do AndroidDev Bootcamp oferecido pelo Instituto IRede em parceria com o IFCE (Instituto Federal do Ceara), requisito este para conclusão e aprovação no bootcamp. Mas foram feitas mehorias no aplicativo, como, repaginação da UI e Autenticação de Usuários.

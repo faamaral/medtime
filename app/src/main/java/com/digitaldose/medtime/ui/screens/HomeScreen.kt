@@ -44,12 +44,14 @@ import com.digitaldose.medtime.database.models.NotificationItem
 import com.digitaldose.medtime.database.models.TabBarItem
 import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
 import com.digitaldose.medtime.ui.components.AppBar
+import com.digitaldose.medtime.ui.components.LembreteItem
 import com.digitaldose.medtime.ui.components.MedicamentoItem
 import com.digitaldose.medtime.ui.components.TabView
 import com.digitaldose.medtime.ui.theme.CustomColors
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.AuthState
 import com.digitaldose.medtime.viewmodels.AuthViewModel
+import com.digitaldose.medtime.viewmodels.LembreteViewModel
 import com.digitaldose.medtime.viewmodels.MedicamentoState
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -66,17 +68,11 @@ fun HomeScreen(
     medicamentoViewModel: MedicamentoViewModel,
     authViewModel: AuthViewModel,
     modifier: Modifier,
-    shouldRefresh: Boolean
+    shouldRefresh: Boolean,
+    lembreteViewModel: LembreteViewModel
 ) {
     val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     // Observa os medicamentos da ViewModel
-    val medicamentos =
-        medicamentoViewModel.obterMedicamentosPorUserId(userId).observeAsState(mutableListOf()).value
-    val medicamentoState = medicamentoViewModel.medicamentoState.observeAsState()
-    val context = LocalContext.current
-    val notificationAlarmScheduler by lazy {
-        NotificationAlarmScheduler(context)
-    }
 
     if (shouldRefresh) {
         LaunchedEffect(Unit) {
@@ -138,23 +134,14 @@ fun HomeScreen(
 //            )
 //        }*/
 //    ) {
-        LazyColumn(modifier = Modifier
-            .padding()
-            .fillMaxSize()) {
-            itemsIndexed(medicamentos) { index, item ->
-                MedicamentoItem(
-                    index = index,
-                    listaMedicamentos = medicamentos,
-                    medicamento = item,
-                    navController = navController,
-                    medicamentoViewModel = medicamentoViewModel,
-                    context = context,
-//                    onClick = {
-//                    navController.navigate("update_medicamento/${item.id}")
-//                }
-                )
-            }
+
+    val lembretes by lembreteViewModel.lembreteTodayLiveData.observeAsState(mutableListOf())
+
+    LazyColumn(modifier = Modifier.padding()) {
+        itemsIndexed(lembretes) { index, item ->
+            LembreteItem(item, lembreteViewModel)
         }
+    }
 //    }
 }
 

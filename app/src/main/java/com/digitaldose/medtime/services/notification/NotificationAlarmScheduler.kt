@@ -32,10 +32,10 @@ class NotificationAlarmScheduler(
     }
 
     override fun schedule(notificationItem: NotificationItem) {
-        alarmManager.setRepeating(
+        alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             notificationItem.time,
-            AlarmManager.INTERVAL_DAY,
+//            AlarmManager.INTERVAL_DAY,
             createPedingIntent(notificationItem)
         )
     }

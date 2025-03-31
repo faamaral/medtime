@@ -174,7 +174,7 @@ fun DatePickerModal(
     onDateSelected: (Long?) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val currentYear = Calendar.getInstance()
+    val currentYear = Calendar.getInstance(android.icu.util.TimeZone.getTimeZone("America/Sao_Paulo"))
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = data,
         yearRange = 1922..currentYear.get(Calendar.YEAR)

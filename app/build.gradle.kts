@@ -97,5 +97,15 @@ dependencies {
 
     implementation(libs.gson)
 
+    val koin_version = "4.0.2"
+
+    implementation("io.insert-koin:koin-android:$koin_version")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+
+    implementation("io.insert-koin:koin-androidx-workmanager:$koin_version")
+    val work_version = "2.10.0"
+    implementation("androidx.work:work-runtime:$work_version")
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 
 }

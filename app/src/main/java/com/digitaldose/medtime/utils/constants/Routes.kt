@@ -6,6 +6,8 @@ package com.digitaldose.medtime.utils.constants
  */
 class Routes {
     companion object {
+        const val MEDICAMENTOS = "medicamentos"
+        const val LEMBRETES = "lembretes"
         const val LOGIN = "login"
         const val SIGNUP = "signup"
         const val HOME = "home"

@@ -29,6 +29,7 @@ import com.digitaldose.medtime.ui.components.TabView
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.AuthState
 import com.digitaldose.medtime.viewmodels.AuthViewModel
+import com.digitaldose.medtime.viewmodels.LembreteViewModel
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -41,7 +42,8 @@ import com.google.firebase.auth.FirebaseAuth
 fun MainScreen(
     navController: NavController,
     medicamentoViewModel: MedicamentoViewModel,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    lembreteViewModel: LembreteViewModel
 ) {
     val authState = authViewModel.authState.observeAsState()
     LaunchedEffect(authState.value) {
@@ -78,7 +80,7 @@ fun MainScreen(
         topBar = {
             when (selectedTab) {
                 0 -> AppBar(
-                    title = "Medicamentos",
+                    title = "Lembretes de Hoje",
                     actions = {
                         IconButton(onClick = {
                             navController.navigate(Routes.CREATE_MEDICAMENTO)
@@ -113,7 +115,8 @@ fun MainScreen(
                     medicamentoViewModel = medicamentoViewModel,
                     authViewModel = authViewModel,
                     modifier = Modifier,
-                    shouldRefresh = false
+                    shouldRefresh = false,
+                    lembreteViewModel = lembreteViewModel
                 )
                 1 -> MenuScreen(navController)
                 2 -> SettingsScreen(navController)

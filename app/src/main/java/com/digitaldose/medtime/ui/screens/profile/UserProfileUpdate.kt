@@ -1,9 +1,7 @@
 package com.digitaldose.medtime.ui.screens.profile
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,12 +10,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -31,20 +25,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.digitaldose.medtime.database.repositories.UserRepository
+import com.digitaldose.medtime.database.repositories.UserRepositoryImpl
 import com.digitaldose.medtime.ui.components.AppBar
 import com.digitaldose.medtime.ui.components.CustomOutlinedTextField
 import com.digitaldose.medtime.ui.components.DatePickerComponent
@@ -192,32 +179,17 @@ fun UserProfileUpdate(
 
             Button(
                 onClick = {
-                    val userRepository = UserRepository()
                     if (user != null) {
-                        userRepository.updateUser(
-                            userId, user.copy(
+                        userViewModel.updateUser(
+                            user.copy(
+                                id = userId,
                                 name = name,
                                 dataNascimento = dataNascimento,
                                 sexo = selectedOptionText,
                                 altura = altura.toIntOrNull(),
                                 peso = peso.toDouble()
-                            )
-                        ).addOnSuccessListener {
-                            Toast.makeText(
-                                context,
-                                "Usuário atualizado com sucesso",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            navController.navigate("${Routes.USER_PROFILE}/${FirebaseAuth.getInstance().currentUser?.uid}")
-                        }
-                            .addOnFailureListener {
-                                Toast.makeText(
-                                    context,
-                                    "Erro ao atualizar usuário",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                            }
+                            ), navController
+                        )
                     }
                 },
                 colors = ButtonDefaults.buttonColors(

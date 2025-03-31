@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.digitaldose.medtime.database.dao.HorariosDao
+import com.digitaldose.medtime.database.dao.LembreteDao
 import com.digitaldose.medtime.database.dao.MedicamentoDao
 import com.digitaldose.medtime.database.models.HorariosEntity
+import com.digitaldose.medtime.database.models.LembreteEntity
 import com.digitaldose.medtime.database.models.MedicamentoEntity
 
 /**
@@ -14,10 +16,12 @@ import com.digitaldose.medtime.database.models.MedicamentoEntity
  * @since 08/03/2025
  */
 
-@Database(entities = [MedicamentoEntity::class, HorariosEntity::class], version = 1)
+@Database(entities = [MedicamentoEntity::class, HorariosEntity::class, LembreteEntity::class], version = 1)
 abstract class MedtimeDatabase : RoomDatabase() {
     abstract fun medicamentoDao(): MedicamentoDao
     abstract fun horariosDao(): HorariosDao
+    abstract fun lembreteDao(): LembreteDao
+
 
 //    companion object {
 //        private const val DATABASE_NAME: String = "medtime_database"

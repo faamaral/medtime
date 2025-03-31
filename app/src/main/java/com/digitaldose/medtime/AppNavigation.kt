@@ -14,10 +14,13 @@ import com.digitaldose.medtime.ui.screens.MenuScreen
 import com.digitaldose.medtime.ui.screens.SettingsScreen
 import com.digitaldose.medtime.ui.screens.auth.LoginScreen
 import com.digitaldose.medtime.ui.screens.auth.SignupScreen
+import com.digitaldose.medtime.ui.screens.lembretes.LembretesScreen
+import com.digitaldose.medtime.ui.screens.medicamentos.MedicamentosScreen
 import com.digitaldose.medtime.ui.screens.profile.UserProfileScreen
 import com.digitaldose.medtime.ui.screens.profile.UserProfileUpdate
 import com.digitaldose.medtime.utils.constants.Routes
 import com.digitaldose.medtime.viewmodels.AuthViewModel
+import com.digitaldose.medtime.viewmodels.LembreteViewModel
 import com.digitaldose.medtime.viewmodels.MedicamentoViewModel
 import com.digitaldose.medtime.viewmodels.UserViewModel
 
@@ -31,7 +34,8 @@ fun AppNavigation(
     modifier: Modifier,
     medicamentoViewModel: MedicamentoViewModel,
     authViewModel: AuthViewModel,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    lembreteViewModel: LembreteViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.MAIN, builder = {
@@ -42,7 +46,7 @@ fun AppNavigation(
             SignupScreen(Modifier, navController, authViewModel)
         }
         composable(Routes.MAIN) {
-            MainScreen(navController, medicamentoViewModel, authViewModel)
+            MainScreen(navController, medicamentoViewModel, authViewModel, lembreteViewModel)
         }
         composable(Routes.HOME, arguments = listOf(navArgument("shouldRefresh") {
             type = NavType.BoolType
@@ -54,7 +58,8 @@ fun AppNavigation(
                 modifier = modifier,
                 medicamentoViewModel = medicamentoViewModel,
                 shouldRefresh = shouldRefresh,
-                authViewModel = authViewModel
+                authViewModel = authViewModel,
+                lembreteViewModel = lembreteViewModel
             )
         }
         composable(
@@ -105,6 +110,16 @@ fun AppNavigation(
         }
         composable(Routes.MENU) {
             MenuScreen(navController)
+        }
+        composable(Routes.LEMBRETES) {
+            LembretesScreen(lembreteViewModel, navController)
+        }
+        composable(Routes.MEDICAMENTOS) {
+            MedicamentosScreen(
+                navController,
+                medicamentoViewModel = medicamentoViewModel,
+                shouldRefresh = false
+            )
         }
     })
 }

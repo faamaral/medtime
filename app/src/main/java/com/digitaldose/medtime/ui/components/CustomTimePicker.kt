@@ -1,6 +1,7 @@
 package com.digitaldose.medtime.ui.components
 
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -75,8 +76,8 @@ fun TimePickerComponent(
 
     //TODO add time picker state
     val timePickerState = rememberTimePickerState(
-        initialHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-        initialMinute = Calendar.getInstance().get(Calendar.MINUTE),
+        initialHour = Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo")).get(Calendar.HOUR_OF_DAY),
+        initialMinute = Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo")).get(Calendar.MINUTE),
         is24Hour = true
     )
     var showTimePicker by remember { mutableStateOf(false) }
@@ -138,7 +139,7 @@ fun TimePickerComponent(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val selectedTime = Calendar.getInstance().apply {
+                        val selectedTime = Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo")).apply {
                             set(Calendar.HOUR_OF_DAY, timePickerState.hour)
                             set(Calendar.MINUTE, timePickerState.minute)
                         }

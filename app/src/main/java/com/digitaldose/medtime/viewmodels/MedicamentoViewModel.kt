@@ -1,27 +1,24 @@
 package com.digitaldose.medtime.viewmodels
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digitaldose.medtime.MainActivity
-import com.digitaldose.medtime.database.dao.MedicamentoDao
-import com.digitaldose.medtime.database.models.HorariosEntity
+import com.digitaldose.medtime.database.models.LembreteEntity
 import com.digitaldose.medtime.database.models.Medicamento
-import com.digitaldose.medtime.database.models.MedicamentoEntity
 import com.digitaldose.medtime.database.models.NotificationItem
+import com.digitaldose.medtime.database.repositories.LembreteRepository
 import com.digitaldose.medtime.database.repositories.MedicamentoRepository
-import com.digitaldose.medtime.services.notification.Notification
 import com.digitaldose.medtime.services.notification.NotificationAlarmScheduler
 import com.digitaldose.medtime.utils.constants.ListsCadastroMedicamentos
 import com.digitaldose.medtime.utils.helpers.HorariosHelper
 import com.google.firebase.firestore.FirebaseFirestoreException
 import io.github.serpro69.kfaker.Faker
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneOffset
 import kotlin.random.Random
 
 /**
@@ -30,8 +27,10 @@ import kotlin.random.Random
  * @since 11/11/2024
  */
 
-class MedicamentoViewModel : ViewModel() {
-    private val medicamentoRepository = MedicamentoRepository()
+class MedicamentoViewModel(
+    private val medicamentoRepository: MedicamentoRepository,
+    private val lembreteRepository: LembreteRepository
+) : ViewModel() {
     private val _medicamentoState = MutableLiveData<MedicamentoState>()
     val medicamentoState: LiveData<MedicamentoState> = _medicamentoState
     private val _medicamentosLiveData = MutableLiveData<MutableList<Medicamento>>()
@@ -67,19 +66,51 @@ class MedicamentoViewModel : ViewModel() {
 //            MainActivity.dataBase?.horariosDao()?.insert(hora)
 //        }
         try {
-            medicamentoRepository.createMedicamento(medicamento).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(context, "Medicamento salvo com sucesso!", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Erro ao salvar medicamento ${it.exception?.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
+//            medicamentoRepository.createMedicamento(medicamento).addOnCompleteListener {
+//                if (it.isSuccessful) {
+//                    Toast.makeText(context, "Medicamento salvo com sucesso!", Toast.LENGTH_SHORT)
+//                        .show()
+//                } else {
+//                    Toast.makeText(
+//                        context,
+//                        "Erro ao salvar medicamento ${it.exception?.message}",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                }
+//            }
             medicamentoRepository.createMedicamento(medicamento).addOnSuccessListener {
+                val timeInMills =
+                    HorariosHelper.converterHorarioStringParaLong(medicamento.horario!!)
+                timeInMills.forEachIndexed { index, horario ->
+                    try {
+                        val lembrete = LembreteEntity(
+                            titulo = medicamento.nome!!,
+                            descricao = "Tomar ${medicamento.dosagem} ${medicamento.tipoDosagem} de ${medicamento.nome}",
+                            data = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant()
+                                .toEpochMilli(),
+                            hora = horario,
+                            medicamentoId = medicamento.id
+                        )
+                        viewModelScope.launch {
+                            val lembreteID = lembreteRepository.createLembrete(lembrete)
+                            val medicamentoNotification = NotificationAlarmScheduler(context)
+                            medicamentoNotification.schedule(
+                                NotificationItem(
+                                    time = horario,
+                                    id = lembreteID,
+                                    medicamento = medicamento
+                                )
+                            )
+                        }
+
+
+                    } catch (e: Exception) {
+                        Toast.makeText(context, "${e.message}", Toast.LENGTH_LONG).show()
+                    }
+
+                }
+
+
                 Toast.makeText(context, "Medicamento salvo com sucesso!", Toast.LENGTH_SHORT).show()
 //            try {
 //                val timeInMillis = HorariosHelper.converterHorarioStringParaLong(medicamento.horario!!)

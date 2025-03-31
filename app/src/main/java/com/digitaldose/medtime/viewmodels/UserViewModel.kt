@@ -1,21 +1,25 @@
 package com.digitaldose.medtime.viewmodels
 
-import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import com.digitaldose.medtime.database.models.User
 import com.digitaldose.medtime.database.repositories.UserRepository
+import com.digitaldose.medtime.database.repositories.UserRepositoryImpl
+import com.digitaldose.medtime.utils.constants.Routes
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
 
 /**
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
  * @since 12/03/2025
  */
-class UserViewModel: ViewModel() {
-    private val userRepository = UserRepository()
+class UserViewModel(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: MutableLiveData<User> = _userLiveData
 
@@ -38,20 +42,29 @@ class UserViewModel: ViewModel() {
                         ativo = document.data?.get("ativo") as Boolean ?: true,
                     )
                     _userLiveData.value = user
-                }
-                catch (e: Exception) {
+                } catch (e: Exception) {
                     Log.e("UserViewModel", "Erro ao converter usuário", e)
                 }
 
-            }
-            else {
+            } else {
                 Log.e("UserViewModel", "Usuário não encontrado")
             }
 
-        }.addOnFailureListener{
+        }.addOnFailureListener {
             Log.e("UserViewModel", "Erro ao obter usuário", it)
         }
         return userLiveData
+    }
+
+    fun updateUser(user: User, navController: NavController) {
+
+        userRepository.updateUser(user).addOnSuccessListener {
+            navController.navigate("${Routes.USER_PROFILE}/${user.id}")
+        }.addOnFailureListener {
+
+        }
+
+
     }
 }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.digitaldose.medtime.database.models.User
 import com.digitaldose.medtime.database.repositories.UserRepository
+import com.digitaldose.medtime.database.repositories.UserRepositoryImpl
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -12,10 +13,11 @@ import com.google.firebase.auth.auth
  * @author Fabiano Amaral Alves <fabianoamaral445@gmail.com>
  * @since 11/03/2025
  */
-class AuthViewModel : ViewModel(){
-    private val auth: FirebaseAuth = Firebase.auth
+class AuthViewModel(
+    private val auth : FirebaseAuth,
+    private val userRepository: UserRepository
+) : ViewModel(){
     private val _authState = MutableLiveData<AuthState>()
-    private val userRepository = UserRepository()
     val authState: MutableLiveData<AuthState> = _authState
 
     init {

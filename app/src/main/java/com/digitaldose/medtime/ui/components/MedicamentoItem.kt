@@ -74,7 +74,7 @@ fun MedicamentoItem(
                 medicamentoViewModel.deletarMedicamento(medicamento.id)
                 scope.launch(Dispatchers.Main) {
                     listaMedicamentos.removeAt(index)
-                    navController.navigate(Routes.HOME)
+                    navController.navigate(Routes.MAIN)
                     Toast.makeText(context, "Medicamento excluído com sucesso!", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -116,18 +116,24 @@ fun MedicamentoItem(
                 Text("Horarios: ${medicamento.horario.toString()}")
 
             }
-
-                Row(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(8.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(
-                            modifier = Modifier.size(43.dp),
-                            onClick = {
-                                navController.navigate("${Routes.UPDATE_MEDICAMENTO}/${medicamento.id}")
-                            }, colors = IconButtonDefaults.iconButtonColors(
-                                contentColor = Color.Blue
-                            )
-                        ) {
-                            Icon(Icons.Filled.Edit, contentDescription = "Editar")
-                        }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    modifier = Modifier.size(43.dp),
+                    onClick = {
+                        navController.navigate("${Routes.UPDATE_MEDICAMENTO}/${medicamento.id}")
+                    }, colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Blue
+                    )
+                ) {
+                    Icon(Icons.Filled.Edit, contentDescription = "Editar")
+                }
 //                if (showDialog.value) {
 //                    DeleteItem1(
 //                        onConfirmButton = {
@@ -139,19 +145,19 @@ fun MedicamentoItem(
 //                        setShowDialog = {showDialog.value = it}
 //                    )
 //                }
-                        IconButton(
-                            modifier = Modifier.size(43.dp),
-                            onClick = {
-                                alertDialog()
-                            }, colors = IconButtonDefaults.iconButtonColors(
-                                contentColor = Color.Red
-                            )
-                        ) {
-                            Icon(Icons.Filled.Delete, contentDescription = "Excluir")
-                        }
-
-
+                IconButton(
+                    modifier = Modifier.size(43.dp),
+                    onClick = {
+                        alertDialog()
+                    }, colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Red
+                    )
+                ) {
+                    Icon(Icons.Filled.Delete, contentDescription = "Excluir")
                 }
+
+
+            }
 
         }
 
